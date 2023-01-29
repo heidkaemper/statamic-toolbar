@@ -2,6 +2,10 @@
 
 namespace Heidkaemper\Toolbar\Breakpoints\Parser;
 
+use Peast\Peast;
+use Peast\Syntax\Node\Identifier;
+use Peast\Syntax\Node\StringLiteral;
+
 class TailwindParser
 {
     protected array $files = [
@@ -10,27 +14,31 @@ class TailwindParser
         'tailwind.config.site.js',
     ];
 
+    protected array $defaults = [
+        'sm'  => 'min-width: 640px',
+        'md'  => 'min-width: 768px',
+        'lg'  => 'min-width: 1024px',
+        'xl'  => 'min-width: 1280px',
+        '2xl' => 'min-width: 1536px',
+    ];
+
+    protected array|null $screens = null;
+
     public function parse(): array|null
     {
         if (! $this->guessWetherTailwindIsUsed()) {
             return null;
         }
 
-        $screens = null;
-
         foreach ($this->files as $file) {
-            $config = $this->parseConfigFile($file);
+            $this->parseConfigFile($file);
 
-            if ($config && ! empty($config['screens'])) {
-                $screens = $config['extends']
-                    ? $this->mergeWithDefaults($config['screens'])
-                    : $config['screens'];
-
+            if (is_array($this->screens)) {
                 break;
             }
         }
 
-        return $screens ?: $this->getDefaults();
+        return $this->screens;
     }
 
     private function guessWetherTailwindIsUsed(): bool
@@ -38,66 +46,53 @@ class TailwindParser
         return file_exists(base_path('tailwind.config.js')) || file_exists(base_path('node_modules/tailwindcss'));
     }
 
-    private function getDefaults(): array
-    {
-        $config = $this->parseConfigFile('node_modules/tailwindcss/stubs/defaultConfig.stub.js');
-
-        // fallback
-        if (! $config || empty($config['screens'])) {
-            return [
-                'sm'  => 'min-width: 640px',
-                'md'  => 'min-width: 768px',
-                'lg'  => 'min-width: 1024px',
-                'xl'  => 'min-width: 1280px',
-                '2xl' => 'min-width: 1536px',
-            ];
-        }
-
-        return $config['screens'];
-    }
-
-    private function mergeWithDefaults(array $screens): array
-    {
-        return array_merge($this->getDefaults(), $screens);
-    }
-
-    private function parseConfigFile($filename): array|null
+    private function parseConfigFile($filename): void
     {
         if (! file_exists(base_path($filename))) {
-            return null;
+            return;
         }
 
-        $content = file_get_contents(base_path($filename));
+        $source = file_get_contents(base_path($filename));
 
-        $result = preg_match('/(?<extends>extend:\s\{.*)?screens:\s*{(?<screens>.*?)}/sm', $content, $matches);
-
-        if (! $result || empty($matches['screens'])) {
-            return null;
+        if (! str_contains($source, 'screens')) {
+            return;
         }
 
-        $screens = collect(explode(PHP_EOL, trim($matches['screens'])))
-            ->mapWithKeys(function ($item) {
-                $parts = explode(':', $item);
+        $ast = Peast::latest($source)->parse();
 
-                if (count($parts) !== 2) {
-                    return [];
-                }
+        $properties = null;
 
-                $key   = preg_replace('/[^A-Za-z0-9]/', '', $parts[0]);
-                $value = preg_replace('/[^A-Za-z0-9]/', '', $parts[1]);
+        // search for the 'screens' property
+        foreach ($ast->query('Property[key]') as $property) {
+            if ($this->isScreensProperty($property)) {
+                $properties = $property->getValue()->getProperties();
 
-                if (empty($key) || empty($value)) {
-                    return [];
-                }
+                break;
+            }
+        }
 
-                return [$key => $value];
+        if (! $properties) {
+            return;
+        }
+
+        // map screens to addon config
+        $this->screens = collect($properties)
+            ->mapWithKeys(function ($property) {
+                $key = $property->getKey() instanceof StringLiteral
+                    ? trim($property->getKey()?->getRaw(), "'")
+                    : $property->getKey()?->getRawName();
+
+                return $key && $property->getValue() instanceof StringLiteral
+                    ? [$key => trim($property->getValue()->getRaw(), "'")]
+                    : [];
             })
-            ->filter()
             ->toArray();
+    }
 
-        return [
-            'screens' => $screens,
-            'extends' => (bool) $matches['extends'],
-        ];
+    private function isScreensProperty($property)
+    {
+        return $property?->getKey()
+            && $property->getKey() instanceof Identifier
+            && $property->getKey()->getRawName() === 'screens';
     }
 }

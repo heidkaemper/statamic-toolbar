@@ -3,6 +3,7 @@
 namespace Heidkaemper\Toolbar\Breakpoints;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Heidkaemper\Toolbar\Breakpoints\Parser\TailwindParser;
 
 class Breakpoints
@@ -36,9 +37,11 @@ class Breakpoints
     private function getFromTailwind(): self
     {
         if ($this->breakpoints->isEmpty()) {
-            $parsedData = (new TailwindParser())->parse();
-
-            $this->breakpoints = collect($parsedData ?? []);
+            try {
+                $this->breakpoints = collect((new TailwindParser())->parse() ?? []);
+            } catch (\Exception $e) {
+                Log::debug($e->getMessage());
+            }
         }
 
         return $this;
