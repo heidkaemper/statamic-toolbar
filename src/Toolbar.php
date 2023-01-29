@@ -26,7 +26,7 @@ class Toolbar
         $widget = view('statamic-toolbar::index', [
             'site'        => $cascade->get('site')?->handle,
             'template'    => $cascade->get('template'),
-            'edit_url'    => $cascade->get('edit_url'),
+            'edit_url'    => $this->getEditUrl($cascade),
             'breakpoints' => $this->getBreakpoints(),
         ]);
 
@@ -41,5 +41,14 @@ class Toolbar
         }
 
         return (new Breakpoints())->toArray();
+    }
+
+    public function getEditUrl($cascade): string|null
+    {
+        if ($cascade->get('logged_in') || config('app.env') === 'local') {
+            return $cascade->get('edit_url');
+        }
+
+        return null;
     }
 }
