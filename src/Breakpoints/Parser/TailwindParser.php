@@ -33,12 +33,12 @@ class TailwindParser
         foreach ($this->files as $file) {
             $this->parseConfigFile($file);
 
-            if (is_array($this->screens)) {
+            if (! is_null($this->screens)) {
                 break;
             }
         }
 
-        return $this->screens;
+        return $this->screens ?? $this->defaults;
     }
 
     private function guessWetherTailwindIsUsed(): bool
@@ -71,12 +71,8 @@ class TailwindParser
             }
         }
 
-        if (! $properties) {
-            return;
-        }
-
-        // map screens to addon config
-        $this->screens = collect($properties)
+        // map to format
+        $parsedScreens = collect($properties)
             ->mapWithKeys(function ($property) {
                 $key = $property->getKey() instanceof StringLiteral
                     ? trim($property->getKey()?->getRaw(), "'")
@@ -87,6 +83,13 @@ class TailwindParser
                     : [];
             })
             ->toArray();
+
+        // should extend the default config?
+        $shouldExtend = preg_match('/extend\s?:\s?\{.*?screens\s?:.*?}/sm', $source);
+
+        $this->screens = $shouldExtend
+            ? array_merge($this->defaults, $parsedScreens)
+            : $parsedScreens;
     }
 
     private function isScreensProperty($property)
