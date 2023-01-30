@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/vendor/statamic-toolbar/toolbar.css">
 
-<div id="statamic_toolbar">
+<div id="statamic_toolbar" @class(['debugbar-enabled' => config('debugbar.enabled')])>
     @includeWhen(config('statamic.toolbar.components.breakpoint'), 'statamic-toolbar::components.breakpoint')
 
     @includeWhen(config('statamic.toolbar.components.site'), 'statamic-toolbar::components.site')

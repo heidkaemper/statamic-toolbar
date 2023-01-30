@@ -2,11 +2,8 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    z-index: 6000001;
-    font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 1;
+    z-index: 5999999;
+    font: normal normal 13px/1 "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
     letter-spacing: normal;
     text-align: left;
     text-decoration: none;
@@ -21,19 +18,15 @@
     display: flex;
     align-items: stretch;
 
-    a {
+    &.debugbar-enabled {
+        left: 40px;
+    }
+
+    .toolbar_cell {
         color: inherit;
         font: inherit;
         text-decoration: none;
         cursor: default;
-
-        &[href]:hover {
-            background: #ebebeb;
-            cursor: pointer;
-        }
-    }
-
-    .toolbar_cell {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -42,13 +35,18 @@
         padding: 0 8px;
         min-width: 55px;
 
-        .toolbar_cell_icon {
+        &[href]:hover {
+            background: #ebebeb;
+            cursor: pointer;
+        }
+
+        &_icon {
             width: 12px;
             height: 12px;
             margin: -1px 0 0;
         }
 
-        .toolbar_cell_content {
+        &_content {
             max-width: 140px;
             overflow: hidden;
             white-space: nowrap;            
@@ -56,12 +54,17 @@
     }
 }
 
-body:has(> .phpdebugbar:not(.phpdebugbar-closed)) #statamic_toolbar {
-    z-index: 5999999;
-    height: 28px;
-    bottom: 33px;
-}
+@supports selector(:has(.phpdebugbar)) {
+    #statamic_toolbar, #statamic_toolbar.debugbar-enabled {
+        left: 0;
+    }
 
-body:has(> .phpdebugbar.phpdebugbar-closed) #statamic_toolbar {
-    left: 40px;
+    body:has(> .phpdebugbar:not(.phpdebugbar-closed)) #statamic_toolbar {
+        height: 28px;
+        bottom: 33px;
+    }
+    
+    body:has(> .phpdebugbar.phpdebugbar-closed) #statamic_toolbar {
+        left: 40px;
+    }
 }
