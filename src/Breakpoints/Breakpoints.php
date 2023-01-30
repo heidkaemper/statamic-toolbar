@@ -37,8 +37,14 @@ class Breakpoints
     private function getFromTailwind(): self
     {
         if ($this->breakpoints->isEmpty()) {
+            $files = [
+                'tailwind.config.js',
+                'tailwind.config.theme.js',
+                'tailwind.config.site.js',
+            ];
+
             try {
-                $this->breakpoints = collect((new TailwindParser())->parse() ?? []);
+                $this->breakpoints = Cache::remember('tailwind', $files, fn () => collect((new TailwindParser($files))->parse() ?? []));
             } catch (\Exception $e) {
                 Log::debug($e->getMessage());
             }

@@ -5,18 +5,9 @@ namespace Heidkaemper\Toolbar\Breakpoints\Parser;
 use Peast\Peast;
 use Peast\Syntax\Node\Identifier;
 use Peast\Syntax\Node\StringLiteral;
-use Heidkaemper\Toolbar\Breakpoints\Parser\Traits\ShouldCache;
 
 class TailwindParser
 {
-    use ShouldCache;
-
-    protected array $files = [
-        'tailwind.config.js',
-        'tailwind.config.theme.js',
-        'tailwind.config.site.js',
-    ];
-
     protected array $defaults = [
         'sm'  => 'min-width: 640px',
         'md'  => 'min-width: 768px',
@@ -27,23 +18,26 @@ class TailwindParser
 
     protected array|null $screens = null;
 
+    public function __construct(
+        protected array $files,
+    ) {
+    }
+
     public function parse(): array|null
     {
         if (! $this->guessWetherTailwindIsUsed()) {
             return null;
         }
 
-        return $this->cache('tailwind', function () {
-            foreach ($this->files as $file) {
-                $this->parseConfigFile($file);
+        foreach ($this->files as $file) {
+            $this->parseConfigFile($file);
 
-                if (! is_null($this->screens)) {
-                    break;
-                }
+            if (! is_null($this->screens)) {
+                break;
             }
+        }
 
-            return $this->screens ?? $this->defaults;
-        });
+        return $this->screens ?? $this->defaults;
     }
 
     private function guessWetherTailwindIsUsed(): bool
