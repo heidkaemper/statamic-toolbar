@@ -9,6 +9,10 @@ class Cache
 {
     public static function remember(string $key, array $files, Closure $callback): mixed
     {
+        if (env('STATAMIC_TOOLBAR_CACHE_DISABLED')) {
+            return $callback();
+        }
+
         $hash = self::getHashFromFiles($files);
 
         $cachedHash   = CacheManager::get("statamic-toolbar-{$key}-hash");

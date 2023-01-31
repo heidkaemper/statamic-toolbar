@@ -3,8 +3,8 @@
 namespace Heidkaemper\Toolbar\Breakpoints\Parser;
 
 use Peast\Peast;
-use Peast\Syntax\Node\Identifier;
 use Peast\Syntax\Node\StringLiteral;
+use Peast\Syntax\Node\ObjectExpression;
 
 class TailwindParser
 {
@@ -53,48 +53,110 @@ class TailwindParser
 
         $source = file_get_contents(base_path($filename));
 
-        if (! str_contains($source, 'screens')) {
+        $ast = Peast::latest($source)->parse();
+
+        // search for 'screens' config
+        $query = $ast->query("Property[key.name='screens']");
+
+        if (! $query->count()) {
             return;
         }
 
-        $ast = Peast::latest($source)->parse();
-
-        $properties = null;
-
-        // search for the 'screens' property
-        foreach ($ast->query('Property[key]') as $property) {
-            if ($this->isScreensProperty($property)) {
-                $properties = $property->getValue()->getProperties();
-
-                break;
-            }
-        }
-
         // map to format
-        $parsedScreens = collect($properties)
+        $parsedScreens = collect($query->get(0)->getValue()->getProperties())
             ->mapWithKeys(function ($property) {
-                $key = $property->getKey() instanceof StringLiteral
-                    ? trim($property->getKey()?->getRaw(), "'")
-                    : $property->getKey()?->getRawName();
+                $label = $this->getRawKeyName($property->getKey());
+                $media = $this->getBreakpointMedia($property->getValue());
 
-                return $key && $property->getValue() instanceof StringLiteral
-                    ? [$key => trim($property->getValue()->getRaw(), "'")]
-                    : [];
+                return $label && $media ? [$label => $media] : [];
             })
             ->toArray();
 
         // should extend the default config?
-        $shouldExtend = preg_match('/extend\s?:\s?\{.*?screens\s?:.*?}/sm', $source);
+        $shouldExtend = (bool) $ast->query("Property[key.name='extend'] Property[key.name='screens']")->count();
 
         $this->screens = $shouldExtend
             ? array_merge($this->defaults, $parsedScreens)
             : $parsedScreens;
     }
 
-    private function isScreensProperty($property)
+    private function getRawKeyName($key): string|null
     {
-        return $property?->getKey()
-            && $property->getKey() instanceof Identifier
-            && $property->getKey()->getRawName() === 'screens';
+        return $key instanceof StringLiteral ? $key?->getValue() : $key?->getRawName();
+    }
+
+    private function getBreakpointMedia($media): string|null
+    {
+        if ($media instanceof StringLiteral) {
+            $value = $media->getValue();
+
+            return (string) preg_match('/^[0-9]*.{2,3}$/', $value) ? "min-width: {$value}" : $value;
+        }
+
+        if ($this->isMaxWidthBreakpoint($media)) {
+            return 'max-width: ' . $media->getProperties()[0]->getValue()->getValue();
+        }
+
+        if ($this->isFixedRangeBreakpoint($media)) {
+            $range = [
+                'min-width: ' . $media->getProperties()[0]->getValue()->getValue(),
+                'max-width: ' . $media->getProperties()[1]->getValue()->getValue(),
+            ];
+
+            return '(' . implode(') and (', $range) . ')';
+        }
+
+        if ($this->isCustomBreakpoint($media)) {
+            return (string) $media->getProperties()[0]->getValue()->getValue();
+        }
+
+        return null;
+    }
+
+    // https://tailwindcss.com/docs/screens#max-width-breakpoints
+    private function isMaxWidthBreakpoint($media): bool
+    {
+        if (! $media instanceof ObjectExpression) {
+            return false;
+        }
+
+        $properties = $media?->getProperties();
+
+        return is_array($properties)
+            && isset($properties[0])
+            && $properties[0]?->getValue() instanceof StringLiteral
+            && $this->getRawKeyName($properties[0]->getKey()) === 'max';
+    }
+
+    // https://tailwindcss.com/docs/screens#fixed-range-breakpoints
+    private function isFixedRangeBreakpoint($media): bool
+    {
+        if (! $media instanceof ObjectExpression) {
+            return false;
+        }
+
+        $properties = $media?->getProperties();
+
+        return is_array($properties)
+            && isset($properties[0], $properties[1])
+            && $properties[0]?->getValue() instanceof StringLiteral
+            && $properties[1]?->getValue() instanceof StringLiteral
+            && $this->getRawKeyName($properties[0]->getKey()) === 'min'
+            && $this->getRawKeyName($properties[1]->getKey()) === 'max';
+    }
+
+    // https://tailwindcss.com/docs/screens#custom-media-queries
+    private function isCustomBreakpoint($media): bool
+    {
+        if (! $media instanceof ObjectExpression) {
+            return false;
+        }
+
+        $properties = $media?->getProperties();
+
+        return is_array($properties)
+            && isset($properties[0])
+            && $properties[0]?->getValue() instanceof StringLiteral
+            && $this->getRawKeyName($properties[0]->getKey()) === 'raw';
     }
 }

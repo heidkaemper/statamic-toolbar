@@ -24,6 +24,11 @@
             "Heidkaemper\\Toolbar\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Heidkaemper\\Toolbar\\Tests\\": "tests"
+        }
+    },
     "extra": {
         "statamic": {
             "name": "Toolbar",

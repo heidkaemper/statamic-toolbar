@@ -44,7 +44,9 @@ class Breakpoints
             ];
 
             try {
-                $this->breakpoints = Cache::remember('tailwind', $files, fn () => collect((new TailwindParser($files))->parse() ?? []));
+                $this->breakpoints = Cache::remember('tailwind', $files, function () use ($files) {
+                    return collect((new TailwindParser($files))->parse() ?? []);
+                });
             } catch (\Exception $e) {
                 Log::debug($e->getMessage());
             }
