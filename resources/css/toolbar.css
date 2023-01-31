@@ -1,3 +1,13 @@
+#statamic_toolbar,
+#statamic_toolbar * {
+    box-sizing: border-box;
+    direction: ltr;
+    text-align: left;
+    color: inherit;
+    font: inherit;
+    text-decoration: none;
+}
+
 #statamic_toolbar {
     position: fixed;
     bottom: 0;
@@ -5,9 +15,6 @@
     z-index: 5999999;
     font: normal normal 13px/1 "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
     letter-spacing: normal;
-    text-align: left;
-    text-decoration: none;
-    direction: ltr;
     color: #555;
     text-shadow: 1px 1px #fff;
     background: #f5f5f5;
@@ -23,9 +30,6 @@
     }
 
     .toolbar_cell {
-        color: inherit;
-        font: inherit;
-        text-decoration: none;
         cursor: default;
         display: flex;
         justify-content: center;
@@ -51,6 +55,13 @@
             overflow: hidden;
             white-space: nowrap;            
         }
+    }
+}
+
+/* fix height for firefox */
+@-moz-document url-prefix() {
+    #statamic_toolbar {
+        height: 34px;
     }
 }
 
