@@ -1,8 +1,7 @@
 @if ($edit_url)
     <a href="{{ $edit_url }}" target="_blank" title="Edit this page" class="toolbar_cell">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" class="toolbar_cell_icon">
-            <path d="M21.3 2.3a1 1 0 0 0-1.5 0l-.8.9a3 3 0 0 0-3.4.6L5 14.4l5.6 5.6L21.2 9.4a3 3 0 0 0 .6-3.4l.9-.9c.4-.4.4-1 0-1.4l-1.4-1.4ZM17 10.8l-6.4 6.4-2.8-2.8L14.2 8l2.8 2.8ZM18.8 9l1-1c.4-.4.4-1 0-1.4l-1.4-1.4a1 1 0 0 0-1.4 0l-1 1L18.8 9Z"/>
-            <path d="m2 23 2.1-7.8 5.7 5.6L2 23Z"/>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" class="toolbar_cell_icon">
+            <path d="M2 26h28v2H2zM25.4 9c.8-.8.8-2 0-2.8l-3.6-3.6a2 2 0 0 0-2.8 0l-15 15V24h6.4l15-15zm-5-5L24 7.6l-3 3L17.4 7l3-3zM6 22v-3.6l10-10 3.6 3.6-10 10H6z"/>
         </svg>
 
         <span class="toolbar_cell_content">

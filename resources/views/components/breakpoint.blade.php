@@ -1,7 +1,6 @@
 <a title="Current Breakpoint" class="toolbar_cell">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" class="toolbar_cell_icon">
-        <path d="M12 8V6H8v4h2V8h2Zm2 6h2v4h-4v-2h2v-2Z"/>
-        <path d="M4 3c0-.6.4-1 1-1h14c.6 0 1 .4 1 1v18c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1V3Zm2 17V4h12v16H6Z"/>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" class="toolbar_cell_icon">
+        <path d="M26 28H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2ZM6 6v20h20V6Z M22 16h2V8h-8v2h6v6zM8 24h8v-2h-6v-6H8v8z"/>
     </svg>
 
     <span class="toolbar_cell_content toolbar_cell_breakpoint"></span>
