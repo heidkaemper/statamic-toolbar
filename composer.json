@@ -1,7 +1,7 @@
 {
     "name": "heidkaemper/statamic-toolbar",
     "require": {
-        "statamic/cms": "~3.3.0 || ~3.4.0",
+        "statamic/cms": "~3.3.50 || ~3.4.0",
         "mck89/peast": "^1.15"
     },
     "require-dev": {
