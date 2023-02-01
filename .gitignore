@@ -1,7 +1,11 @@
+/.idea
+/.php-cs-fixer.cache
+/.phpunit.result.cache
+/composer.lock
 /node_modules
+/package-lock.json
 /vendor
-.php-cs-fixer.cache
-.phpunit.result.cache
-composer.lock
+/yarn.lock
+.DS_*
+.env
 mix-manifest.json
-yarn.lock

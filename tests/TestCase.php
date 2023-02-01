@@ -25,6 +25,31 @@ class TestCase extends OrchestraTestCase
         ];
     }
 
+    protected function getPackageAliases($app)
+    {
+        return [
+            'Statamic' => Statamic::class,
+        ];
+    }
+
+    protected function resolveApplicationConfiguration($app)
+    {
+        parent::resolveApplicationConfiguration($app);
+
+        $configs = [
+            'assets', 'cp', 'forms', 'routes', 'static_caching',
+            'sites', 'stache', 'system', 'users',
+        ];
+
+        foreach ($configs as $config) {
+            $app['config']->set("statamic.{$config}", require(__DIR__ . "/../vendor/statamic/cms/config/{$config}.php"));
+        }
+
+        $app['config']->set('statamic.users.repository', 'file');
+
+        $app['config']->set("statamic.toolbar", require(__DIR__ . '/../config/toolbar.php'));
+    }
+
     protected function setUpTestEntry(): void
     {
         copy(__DIR__ . '/stubs/layout.antlers.stub.html', resource_path('views/layout.antlers.html'));
