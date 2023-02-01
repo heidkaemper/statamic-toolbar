@@ -15,13 +15,9 @@ class ServiceProvider extends AddonServiceProvider
         Statamic::booted(function () {
             $this
                 ->bootAddonMiddleware()
-                ->bootAddonViews();
+                ->bootAddonViews()
+                ->publishAddonAssets();
         });
-    }
-
-    public function bootAddon(): void
-    {
-        $this->publishAddonAssets();
     }
 
     protected function bootAddonMiddleware(): self
@@ -52,12 +48,12 @@ class ServiceProvider extends AddonServiceProvider
     protected function publishAddonAssets(): void
     {
         $this->publishes([
-            __DIR__ . '/../dist/toolbar.css' => public_path("vendor/{$this->getAddon()->packageName()}/toolbar.css"),
-        ], $this->getAddon()->slug());
+            __DIR__ . '/../dist/toolbar.css' => public_path('vendor/statamic-toolbar/toolbar.css'),
+        ], 'statamic-toolbar');
 
         Statamic::afterInstalled(function ($command) {
             $command->call('vendor:publish', [
-                '--tag' => $this->getAddon()->slug(),
+                '--tag' => 'statamic-toolbar-config',
                 '--force' => true,
             ]);
         });

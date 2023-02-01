@@ -28,7 +28,7 @@ return [
     'components' => [
         'breakpoint' => true,
         'site' => false,
-        'template' => false,
+        'template' => true,
         'cp_link' => true,
     ],
 
