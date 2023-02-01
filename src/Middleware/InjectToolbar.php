@@ -4,6 +4,7 @@ namespace Heidkaemper\Toolbar\Middleware;
 
 use Closure;
 use Heidkaemper\Toolbar\Toolbar;
+use Illuminate\Support\Facades\Log;
 
 class InjectToolbar
 {
@@ -20,7 +21,11 @@ class InjectToolbar
             return $response;
         }
 
-        $this->toolbar->inject($response);
+        try {
+            $this->toolbar->inject($response);
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+        }
 
         return $response;
     }
