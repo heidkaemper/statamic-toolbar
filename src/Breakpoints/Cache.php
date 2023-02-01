@@ -15,7 +15,7 @@ class Cache
 
         $hash = self::getHashFromFiles($files);
 
-        $cachedHash   = CacheManager::get("statamic-toolbar-{$key}-hash");
+        $cachedHash = CacheManager::get("statamic-toolbar-{$key}-hash");
         $cachedResult = CacheManager::get("statamic-toolbar-{$key}-result");
 
         if ($cachedHash === $hash && $cachedResult) {
@@ -25,7 +25,7 @@ class Cache
         $result = $callback();
 
         CacheManager::putMany([
-            "statamic-toolbar-{$key}-hash"   => $hash,
+            "statamic-toolbar-{$key}-hash" => $hash,
             "statamic-toolbar-{$key}-result" => $result,
         ], 600);
 

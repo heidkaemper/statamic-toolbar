@@ -3,16 +3,16 @@
 namespace Heidkaemper\Toolbar\Breakpoints\Parser;
 
 use Peast\Peast;
-use Peast\Syntax\Node\StringLiteral;
 use Peast\Syntax\Node\ObjectExpression;
+use Peast\Syntax\Node\StringLiteral;
 
 class TailwindParser
 {
     protected array $defaults = [
-        'sm'  => 'min-width: 640px',
-        'md'  => 'min-width: 768px',
-        'lg'  => 'min-width: 1024px',
-        'xl'  => 'min-width: 1280px',
+        'sm' => 'min-width: 640px',
+        'md' => 'min-width: 768px',
+        'lg' => 'min-width: 1024px',
+        'xl' => 'min-width: 1280px',
         '2xl' => 'min-width: 1536px',
     ];
 

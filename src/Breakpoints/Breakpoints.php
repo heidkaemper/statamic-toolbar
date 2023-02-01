@@ -2,9 +2,9 @@
 
 namespace Heidkaemper\Toolbar\Breakpoints;
 
+use Heidkaemper\Toolbar\Breakpoints\Parser\TailwindParser;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Heidkaemper\Toolbar\Breakpoints\Parser\TailwindParser;
 
 class Breakpoints
 {

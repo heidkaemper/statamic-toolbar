@@ -2,10 +2,10 @@
 
 namespace Heidkaemper\Toolbar\Tests;
 
+use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Stache;
-use Statamic\Facades\Collection;
-use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 class TestCase extends OrchestraTestCase
 {

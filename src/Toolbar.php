@@ -3,8 +3,8 @@
 namespace Heidkaemper\Toolbar;
 
 use Facades\Statamic\View\Cascade;
-use Symfony\Component\HttpFoundation\Response;
 use Heidkaemper\Toolbar\Breakpoints\Breakpoints;
+use Symfony\Component\HttpFoundation\Response;
 
 class Toolbar
 {
@@ -24,9 +24,9 @@ class Toolbar
         $cascade = Cascade::instance();
 
         $widget = view('statamic-toolbar::index', [
-            'site'        => $cascade->get('site')?->handle,
-            'template'    => $cascade->get('template'),
-            'edit_url'    => $this->getEditUrl($cascade),
+            'site' => $cascade->get('site')?->handle,
+            'template' => $cascade->get('template'),
+            'edit_url' => $this->getEditUrl($cascade),
             'breakpoints' => $this->getBreakpoints(),
         ]);
 

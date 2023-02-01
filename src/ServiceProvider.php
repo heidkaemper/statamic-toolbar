@@ -2,9 +2,9 @@
 
 namespace Heidkaemper\Toolbar;
 
-use Statamic\Statamic;
-use Statamic\Providers\AddonServiceProvider;
 use Heidkaemper\Toolbar\Middleware\InjectToolbar;
+use Statamic\Providers\AddonServiceProvider;
+use Statamic\Statamic;
 
 class ServiceProvider extends AddonServiceProvider
 {
@@ -57,7 +57,7 @@ class ServiceProvider extends AddonServiceProvider
 
         Statamic::afterInstalled(function ($command) {
             $command->call('vendor:publish', [
-                '--tag'   => $this->getAddon()->slug(),
+                '--tag' => $this->getAddon()->slug(),
                 '--force' => true,
             ]);
         });
