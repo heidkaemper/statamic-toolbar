@@ -8,15 +8,34 @@ use Heidkaemper\Toolbar\Middleware\InjectToolbar;
 
 class ServiceProvider extends AddonServiceProvider
 {
-    protected $middlewareGroups = [
-        'statamic.web' => [
-            InjectToolbar::class,
-        ],
-    ];
+    public function boot()
+    {
+        parent::boot();
+
+        Statamic::booted(function () {
+            $this
+                ->bootAddonMiddleware()
+                ->bootAddonViews();
+        });
+    }
 
     public function bootAddon(): void
     {
         $this->publishAddonAssets();
+    }
+
+    protected function bootAddonMiddleware(): self
+    {
+        $this->app['router']->pushMiddlewareToGroup('statamic.web', InjectToolbar::class);
+
+        return $this;
+    }
+
+    protected function bootAddonViews(): self
+    {
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'statamic-toolbar');
+
+        return $this;
     }
 
     protected function bootConfig(): self
