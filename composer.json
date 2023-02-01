@@ -1,5 +1,8 @@
 {
     "name": "heidkaemper/statamic-toolbar",
+    "license": "MIT",
+    "type": "statamic-addon",
+    "description": "A Statamic CMS frontend helper",
     "require": {
         "statamic/cms": "~3.3.50 || ~3.4.0",
         "mck89/peast": "^1.15"
