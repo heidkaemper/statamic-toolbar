@@ -1,14 +1,17 @@
 {
     "private": true,
+    "name": "toolbar",
+    "type": "module",
     "scripts": {
-        "watch": "cross-env NODE_ENV=development mix watch --mix-config=./webpack.mix",
-        "dev": "cross-env NODE_ENV=development mix --mix-config=./webpack.mix",
-        "prod": "cross-env NODE_ENV=production mix --production --mix-config=./webpack.mix"
+        "dev": "npm run build",
+        "prod": "npm run build",
+        "build": "vite build"
     },
     "devDependencies": {
-        "autoprefixer": "^10.4.13",
-        "cross-env": "^7.0.3",
-        "laravel-mix": "^6.0.49",
-        "postcss-nested": "^6.0.0"
+        "@sveltejs/vite-plugin-svelte": "^2.0.2",
+        "sass": "^1.58.0",
+        "svelte": "^3.55.1",
+        "svelte-preprocess": "^5.0.1",
+        "vite": "^4.0.4"
     }
 }

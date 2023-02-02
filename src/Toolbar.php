@@ -24,9 +24,10 @@ class Toolbar
         $cascade = Cascade::instance();
 
         $widget = view('statamic-toolbar::index', [
+            'breakpoints' => $this->getBreakpoints(),
             'site' => $cascade->get('site')?->handle,
             'template' => $this->getTemplate($cascade),
-            'edit_url' => $this->getEditUrl($cascade),
+            'edit_url' => $this->getCpLink($cascade),
             'breakpoints' => $this->getBreakpoints(),
         ]);
 
@@ -43,7 +44,7 @@ class Toolbar
         return (new Breakpoints())->toArray();
     }
 
-    public function getEditUrl($cascade): string|null
+    public function getCpLink($cascade): string|null
     {
         if ($cascade->get('logged_in') || config('app.env') === 'local') {
             return $cascade->get('edit_url');

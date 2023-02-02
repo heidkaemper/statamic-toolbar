@@ -1,20 +1,9 @@
-#statamic_toolbar,
-#statamic_toolbar * {
-    box-sizing: border-box;
-    direction: ltr;
-    text-align: left;
-    color: inherit;
-    font: inherit;
-    text-decoration: none;
-}
-
-#statamic_toolbar {
+#toolbar {
     position: fixed;
     bottom: 0;
     left: 0;
     z-index: 5999999;
     font: normal normal 13px/1.1 "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
-    letter-spacing: normal;
     color: #555;
     text-shadow: 1px 1px #fff;
     background: #f5f5f5;
@@ -25,11 +14,11 @@
     display: flex;
     align-items: stretch;
 
-    &.debugbar-enabled {
-        left: 40px;
+    * {
+        box-sizing: border-box;
     }
 
-    .toolbar_cell {
+    .cell {
         cursor: default;
         display: flex;
         justify-content: center;
@@ -38,8 +27,11 @@
         border-right: 1px solid #ddd;
         padding: 0 8px;
         min-width: 55px;
+        color: inherit;
+        text-decoration: none;
 
-        &[href]:hover {
+        &[href]:hover,
+        &[href]:active {
             background: #ebebeb;
             cursor: pointer;
         }
@@ -60,22 +52,7 @@
 
 /* fix height for firefox */
 @-moz-document url-prefix() {
-    #statamic_toolbar {
+    #toolbar {
         height: 34px;
-    }
-}
-
-@supports selector(:has(.phpdebugbar)) {
-    #statamic_toolbar, #statamic_toolbar.debugbar-enabled {
-        left: 0;
-    }
-
-    body:has(> .phpdebugbar:not(.phpdebugbar-closed)) #statamic_toolbar {
-        height: 28px;
-        bottom: 33px;
-    }
-    
-    body:has(> .phpdebugbar.phpdebugbar-closed) #statamic_toolbar {
-        left: 40px;
     }
 }
