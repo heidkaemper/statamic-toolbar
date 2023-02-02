@@ -25,7 +25,7 @@ class Toolbar
 
         $widget = view('statamic-toolbar::index', [
             'site' => $cascade->get('site')?->handle,
-            'template' => $cascade->get('template'),
+            'template' => $this->getTemplate($cascade),
             'edit_url' => $this->getEditUrl($cascade),
             'breakpoints' => $this->getBreakpoints(),
         ]);
@@ -47,6 +47,27 @@ class Toolbar
     {
         if ($cascade->get('logged_in') || config('app.env') === 'local') {
             return $cascade->get('edit_url');
+        }
+
+        return null;
+    }
+
+    public function getTemplate($cascade): string|null
+    {
+        if ($cascade->get('template')) {
+            return $cascade->get('template');
+        }
+
+        if ((bool) $cascade->get('is_entry')) {
+            return $cascade->get('collection')->value()->template();
+        }
+
+        if ($cascade->get('views')) {
+            $view = collect($cascade->get('views'))->keys()->first() ?? '';
+
+            if (preg_match('#/views/(?<template>.*?)\.(antlers|blade)\.(html|php)$#i', $view, $matches)) {
+                return $matches["template"];
+            }
         }
 
         return null;
