@@ -42,6 +42,10 @@ class ServiceProvider extends AddonServiceProvider
             __DIR__ . '/../config/toolbar.php' => config_path('statamic/toolbar.php'),
         ], 'statamic-toolbar-config');
 
+        Statamic::afterInstalled(function ($command) {
+            $command->call('vendor:publish', ['--tag' => 'statamic-toolbar-config']);
+        });
+
         return $this;
     }
 
@@ -49,13 +53,10 @@ class ServiceProvider extends AddonServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../dist/toolbar.css' => public_path('vendor/statamic-toolbar/toolbar.css'),
-        ], 'statamic-toolbar');
+        ], 'statamic-toolbar-assets');
 
         Statamic::afterInstalled(function ($command) {
-            $command->call('vendor:publish', [
-                '--tag' => 'statamic-toolbar-config',
-                '--force' => true,
-            ]);
+            $command->call('vendor:publish', ['--tag' => 'statamic-toolbar-assets', '--force' => true]);
         });
     }
 }
