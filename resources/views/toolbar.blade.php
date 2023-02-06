@@ -7,6 +7,7 @@
     @if ($breakpoints)
         <span class="toolbar_current_breakpoint">
             <style>
+                .toolbar_current_breakpoint { display: none; }
                 .toolbar_current_breakpoint::before { content: "\2014"; }
                 @foreach ($breakpoints as $label => $query)
                     @media ({{ $query }}) { .toolbar_current_breakpoint::before { content: "{{ $label }}"; } }

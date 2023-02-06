@@ -65,6 +65,10 @@
         }
     }
 
+    ::slotted(.toolbar_current_breakpoint) {
+        display: inline !important;
+    }
+
     &.debugbarClosed {
         left: 40px;
     }
