@@ -6,7 +6,7 @@ export default defineConfig({
     publicDir: false,
     build: {
         lib: {
-            entry: './resources/js/toolbar.svelte',
+            entry: './resources/js/Toolbar.svelte',
             formats: ['iife'],
             name: 'toolbar',
             fileName: (format) => 'toolbar.js'
@@ -14,14 +14,21 @@ export default defineConfig({
     },
     plugins: [
         svelte({
+            include: 'resources/js/Toolbar.svelte',
+            compilerOptions: {
+                customElement: true,
+            },
             preprocess: sveltePreprocess({
                 scss: {
                     includePaths: ['resources/css'],
                 },
             }),
+        }),
+        svelte({
+            exclude: 'resources/js/Toolbar.svelte',
             compilerOptions: {
-                customElement: true,
-            }
-        })
-    ]
+                customElement: false,
+            },
+        }),
+    ],
 });

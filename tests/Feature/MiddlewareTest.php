@@ -6,7 +6,7 @@ it('injects when toolbar is enabled', function () {
     $this
         ->get('/test')
         ->assertOk()
-        ->assertSee('id="statamic_toolbar"', false);
+        ->assertSee('statamic-toolbar', false);
 });
 
 it('does not inject when toolbar is disabled', function () {
@@ -15,5 +15,5 @@ it('does not inject when toolbar is disabled', function () {
     $this
         ->get('/test')
         ->assertOk()
-        ->assertDontSee('id="statamic_toolbar"', false);
+        ->assertDontSee('statamic-toolbar', false);
 });

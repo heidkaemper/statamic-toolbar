@@ -3,7 +3,8 @@
     "name": "toolbar",
     "type": "module",
     "scripts": {
-        "dev": "npm run build",
+        "dev": "npm run watch",
+        "watch": "vite build --watch",
         "prod": "npm run build",
         "build": "vite build"
     },
