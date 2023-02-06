@@ -17,6 +17,7 @@ export default defineConfig({
             include: 'resources/js/Toolbar.svelte',
             compilerOptions: {
                 customElement: true,
+                tag: 'statamic-toolbar',
             },
             preprocess: sveltePreprocess({
                 scss: {
