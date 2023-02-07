@@ -13,7 +13,7 @@ export default class {
         this.setStatus(debugbar);
     }
 
-    setStatus = function(debugbar) {
+    setStatus(debugbar) {
         if (debugbar.classList.contains('phpdebugbar-closed')) {
             return this.callback('closed');
         }

@@ -9,7 +9,7 @@
 
     export let breakpoints = false;
     export let site = false;
-	export let template = false;
+    export let template = false;
     export let cp_link = false;
 
     let debugbarStatus = null;

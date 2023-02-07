@@ -28,7 +28,7 @@
                 return type = 'width';
             default:
                 return type = 'labels';
-        };
+        }
 	}
 </script>
 
