@@ -4,6 +4,7 @@ namespace Heidkaemper\Toolbar\Breakpoints\Parser;
 
 use Peast\Peast;
 use Peast\Syntax\Node\ObjectExpression;
+use Peast\Syntax\Node\Property;
 use Peast\Syntax\Node\StringLiteral;
 
 class TailwindParser
@@ -65,6 +66,10 @@ class TailwindParser
         // map to format
         $parsedScreens = collect($query->get(0)->getValue()->getProperties())
             ->mapWithKeys(function ($property) {
+                if (! $property instanceof Property) {
+                    return [];
+                }
+
                 $label = $this->getRawKeyName($property->getKey());
                 $media = $this->getBreakpointMedia($property->getValue());
 
@@ -73,11 +78,13 @@ class TailwindParser
             ->toArray();
 
         // should extend the default config?
-        $shouldExtend = (bool) $ast->query("Property[key.name='extend'] Property[key.name='screens']")->count();
+        $shouldExtend = $this->shouldExtend($ast);
 
         $this->screens = $shouldExtend
             ? array_merge($this->defaults, $parsedScreens)
             : $parsedScreens;
+
+        $this->sortByMinWidth();
     }
 
     private function getRawKeyName($key): string|null
@@ -158,5 +165,32 @@ class TailwindParser
             && isset($properties[0])
             && $properties[0]?->getValue() instanceof StringLiteral
             && $this->getRawKeyName($properties[0]->getKey()) === 'raw';
+    }
+
+    private function shouldExtend($ast): bool
+    {
+        return (bool)
+            $ast->query("Property[key.name='extend'] Property[key.name='screens']")->count() ||
+            $ast->query("Property[key.name='screens'] SpreadElement MemberExpression[object.name='defaultTheme'][property.name='screens']")->count();
+    }
+
+    private function sortByMinWidth(): void
+    {
+        $sortedScreens = collect($this->screens)
+            ->map(function ($screen) {
+                if (preg_match('/^min-width:\s*?(?<px>[0-9]*)px$/i', $screen, $matches)) {
+                    return (int) $matches['px'];
+                }
+
+                return null;
+            })
+            ->filter()
+            ->sort()
+            ->map(fn ($screen) => "min-width: {$screen}px")
+            ->toArray();
+
+        if (count($sortedScreens) === count($this->screens)) {
+            $this->screens = $sortedScreens;
+        }
     }
 }
