@@ -12,7 +12,7 @@
 
     onMount(() => {
         if (breakpoints === 'labels') {
-            type = 'labels';
+            type = localStorage.getItem('statamic.toolbar.breakpoints.type') ?? 'labels';
         }
     });
 
@@ -23,12 +23,16 @@
 
         switch (type) {
             case 'labels':
-                return type = 'both';
+                type = 'both';
+                break;
             case 'both':
-                return type = 'width';
+                type = 'width';
+                break;
             default:
-                return type = 'labels';
+                type = 'labels';
         }
+
+        localStorage.setItem('statamic.toolbar.breakpoints.type', type);
 	}
 </script>
 
