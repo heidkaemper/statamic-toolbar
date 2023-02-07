@@ -1,9 +1,18 @@
-<div id="statamic_toolbar" @class(['debugbar-enabled' => config('debugbar.enabled')])>
-    @includeWhen(config('statamic.toolbar.components.breakpoint'), 'statamic-toolbar::components.breakpoint')
-
-    @includeWhen(config('statamic.toolbar.components.site'), 'statamic-toolbar::components.site')
-
-    @includeWhen(config('statamic.toolbar.components.template'), 'statamic-toolbar::components.template')
-
-    @includeWhen(config('statamic.toolbar.components.cp_link'), 'statamic-toolbar::components.cp_link')
-</div>
+<statamic-toolbar
+    @if(isset($breakpoints)) breakpoints="{{ $breakpoints ? 'labels' : 'width' }}" @endif
+    @if($site) site="{{ $site }}" @endif
+    @if($template) template="{{ $template }}" @endif
+    @if($cp_link) cp_link="{{ $cp_link }}" @endif
+>
+    @if ($breakpoints)
+        <span class="toolbar_current_breakpoint">
+            <style>
+                .toolbar_current_breakpoint { display: none; }
+                .toolbar_current_breakpoint::before { content: "\2014"; }
+                @foreach ($breakpoints as $label => $query)
+                    @media ({{ $query }}) { .toolbar_current_breakpoint::before { content: "{{ $label }}"; } }
+                @endforeach
+            </style>
+        </span>
+    @endif
+</statamic-toolbar>

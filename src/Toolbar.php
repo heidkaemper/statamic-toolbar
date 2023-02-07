@@ -24,36 +24,53 @@ class Toolbar
         $cascade = Cascade::instance();
 
         $widget = view('statamic-toolbar::index', [
-            'site' => $cascade->get('site')?->handle,
-            'template' => $this->getTemplate($cascade),
-            'edit_url' => $this->getEditUrl($cascade),
             'breakpoints' => $this->getBreakpoints(),
+            'site' => $this->getSite($cascade),
+            'template' => $this->getTemplate($cascade),
+            'cp_link' => $this->getCpLink($cascade),
         ]);
 
         $response->setContent(mb_substr($content, 0, $pos) . $widget . mb_substr($content, $pos));
         $response->headers->remove('Content-Length');
     }
 
-    public function getBreakpoints(): array
+    public function getBreakpoints(): array|null
     {
         if (! config('statamic.toolbar.components.breakpoint')) {
-            return [];
+            return null;
         }
 
         return (new Breakpoints())->toArray();
     }
 
-    public function getEditUrl($cascade): string|null
+    public function getSite($cascade): string|null
     {
-        if ($cascade->get('logged_in') || config('app.env') === 'local') {
-            return $cascade->get('edit_url');
+        if (! config('statamic.toolbar.components.site')) {
+            return null;
         }
 
-        return null;
+        return $cascade->get('site')?->handle;
+    }
+
+    public function getCpLink($cascade): string|null
+    {
+        if (! config('statamic.toolbar.components.cp_link')) {
+            return null;
+        }
+
+        if (! $cascade->get('logged_in') && config('app.env') !== 'local') {
+            return null;
+        }
+
+        return $cascade->get('edit_url');
     }
 
     public function getTemplate($cascade): string|null
     {
+        if (! config('statamic.toolbar.components.template')) {
+            return null;
+        }
+
         if ($cascade->get('template')) {
             return $cascade->get('template');
         }
