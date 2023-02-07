@@ -2,6 +2,7 @@
 
 <script>
     import { onMount } from 'svelte';
+    import Storage from './../helper/Storage';
 
     export let breakpoints;
     
@@ -12,7 +13,7 @@
 
     onMount(() => {
         if (breakpoints === 'labels') {
-            type = localStorage.getItem('statamic.toolbar.breakpoints.type') ?? 'labels';
+            type = Storage.get('statamic.toolbar.breakpoints.type') ?? 'labels';
         }
     });
 
@@ -32,7 +33,7 @@
                 type = 'labels';
         }
 
-        localStorage.setItem('statamic.toolbar.breakpoints.type', type);
+        Storage.set('statamic.toolbar.breakpoints.type', type);
 	}
 </script>
 
@@ -42,8 +43,8 @@
     title="{ type === 'width' ? 'Window width' : 'Current Breakpoint' }"
     class="cell"
 >
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" class="cell_icon">
-        <path d="M26 28H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2ZM6 6v20h20V6Z M22 16h2V8h-8v2h6v6zM8 24h8v-2h-6v-6H8v8z"/>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 15 15" class="cell_icon">
+        <path d="M1.25 8.75h12.5M5 13.13h5m-5.75-1.88h6.5c1.05 0 1.58 0 1.98-.2.35-.18.64-.47.82-.82.2-.4.2-.93.2-1.98V4.87c0-1.05 0-1.57-.2-1.97a1.87 1.87 0 0 0-.82-.82c-.4-.2-.93-.2-1.98-.2h-6.5c-1.05 0-1.58 0-1.98.2-.35.18-.64.47-.82.82-.2.4-.2.92-.2 1.98v3.37c0 1.05 0 1.58.2 1.98.18.35.47.64.82.82.4.2.93.2 1.98.2Z"/>
     </svg>
 
     <span class="cell_content cell_breakpoint_indicator">

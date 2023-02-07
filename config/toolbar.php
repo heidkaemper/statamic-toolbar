@@ -30,6 +30,7 @@ return [
         'site' => false,
         'template' => true,
         'cp_link' => true,
+        'visibility' => true,
     ],
 
     /*

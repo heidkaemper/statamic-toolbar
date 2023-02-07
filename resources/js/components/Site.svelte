@@ -3,8 +3,8 @@
 </script>
 
 <div title="Site: {site}" class="cell">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" class="cell_icon">
-        <path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2ZM4 16a12 12 0 0 1 4-9v2a2 2 0 0 0 2 2h3.4a2 2 0 0 0 1.8-1.1l.4-.9H18v4h-4.8a2 2 0 0 0-.9.2l-3.2 1.6A2 2 0 0 0 8 16.6v3.7a2 2 0 0 0 1.3 1.9l3.8 1.5.7 4A12 12 0 0 1 4 16Zm11.8 12-1-5.7-4.8-2v-3.7l3.2-1.6H20V7h-5.6l-1 2H10V5.6A12 12 0 0 1 27.3 12H22v4l1 3.8-2 2.9v4.2a12 12 0 0 1-5 1.1h-.2Zm7.2-2.3v-2.4l1.6-2.4a2 2 0 0 0 .3-1.6L24 16v-2h3.8A11.8 11.8 0 0 1 23 25.7Z"/>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 15 15" class="cell_icon">
+        <path d="M9.38 1.54a6.25 6.25 0 1 0 3.62 3m-2.38-.95h0M6.57 13.68V12.3c0-.07.03-.14.08-.2l1.55-1.81a.31.31 0 0 0-.08-.48L6.32 8.8a.31.31 0 0 1-.11-.11L5.04 6.64a.31.31 0 0 0-.3-.16l-3.45.3m11.84-3.03c0 1.38-1.26 2.5-2.5 3.75-1.26-1.25-2.5-2.37-2.5-3.75a2.5 2.5 0 0 1 5 0Zm-2.35-.16a.16.16 0 1 1-.31 0 .16.16 0 0 1 .31 0Z"/>
     </svg>
 
     <span class="cell_content">

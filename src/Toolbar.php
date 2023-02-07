@@ -28,6 +28,7 @@ class Toolbar
             'site' => $this->getSite($cascade),
             'template' => $this->getTemplate($cascade),
             'cp_link' => $this->getCpLink($cascade),
+            'visibility' => config('statamic.toolbar.components.visibility'),
         ]);
 
         $response->setContent(mb_substr($content, 0, $pos) . $widget . mb_substr($content, $pos));

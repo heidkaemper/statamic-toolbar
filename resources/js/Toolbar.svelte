@@ -3,6 +3,7 @@
     import DebugbarObserver from './helper/DebugbarObserver';
 
     import Breakpoints from './components/Breakpoints.svelte';
+    import Visibility from './components/Visibility.svelte';
     import Template from './components/Template.svelte';
     import CpLink from './components/CpLink.svelte';
     import Site from './components/Site.svelte';
@@ -11,7 +12,9 @@
     export let site = false;
     export let template = false;
     export let cp_link = false;
+    export let visibility = false;
 
+    let isHidden = false;
     let debugbarStatus = null;
 
     onMount(() => {
@@ -25,6 +28,7 @@
 
 <div
     id="toolbar"
+    class:isHidden
     class:debugbarClosed={ debugbarStatus === 'closed' }
     class:debugbarMinimized={ debugbarStatus === 'minimized' }
 >
@@ -44,6 +48,10 @@
 
     {#if cp_link}
         <CpLink {cp_link}/>
+    {/if}
+
+    {#if visibility}
+        <Visibility callback={hidden => isHidden = hidden}/>
     {/if}
 
     <style src="./../css/toolbar.scss"></style>

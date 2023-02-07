@@ -3,6 +3,7 @@
     @if($site) site="{{ $site }}" @endif
     @if($template) template="{{ $template }}" @endif
     @if($cp_link) cp_link="{{ $cp_link }}" @endif
+    @if($visibility) visibility="true" @endif
 >
     @if ($breakpoints)
         <span class="toolbar_current_breakpoint">
