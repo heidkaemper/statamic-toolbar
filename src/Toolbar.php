@@ -2,6 +2,7 @@
 
 namespace Heidkaemper\Toolbar;
 
+use Composer\InstalledVersions;
 use Symfony\Component\HttpFoundation\Response;
 
 class Toolbar
@@ -21,9 +22,19 @@ class Toolbar
 
         $widget = view('statamic-toolbar::index', [
             'endpoint' => route('statamic-toolbar-endpoint', [], false),
+            'version' => $this->getVersion(),
         ]);
 
         $response->setContent(mb_substr($content, 0, $pos) . $widget . mb_substr($content, $pos));
         $response->headers->remove('Content-Length');
+    }
+
+    protected function getVersion(): string
+    {
+        if (! InstalledVersions::isInstalled('heidkaemper/statamic-toolbar')) {
+            return '';
+        }
+
+        return InstalledVersions::getPrettyVersion('heidkaemper/statamic-toolbar');
     }
 }
