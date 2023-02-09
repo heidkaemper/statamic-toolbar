@@ -1,17 +1,14 @@
 <!-- statamic:hide -->
 
-## Statamic Toolbar
+# Statamic Toolbar
 
 <!-- /statamic:hide -->
 
-> A Statamic CMS frontend helper
-
-This package adds a toolbar in the lower left corner of your frontend.
-It can display a couple of informations that are helpful for templating.
+This addon adds a toolbar in the lower left corner of your Statamic CMS frontend. It can display some useful information like:
 
 - CSS Breakpoint Indicator \*
-- Current Template
 - Current Site
+- Current Template
 - Link to Control Panel
 
 \* The Breakpoint Indicator *tries* to determine media queries automatically if you use Tailwind CSS.
@@ -26,7 +23,7 @@ composer require heidkaemper/statamic-toolbar
 
 ## Configuration
 
-The Toolbar will be enabled on all Statamic routes by default, if debug in your app.php is set to true.
+The Toolbar will be enabled on all Statamic routes by default, if app.debug is set to true.
 If you want more control, make sure the configuration file has been published:
 
 ```
