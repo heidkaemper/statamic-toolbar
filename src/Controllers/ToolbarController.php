@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Site;
+use Statamic\Support\Str;
 
 class ToolbarController extends Controller
 {
@@ -20,10 +21,7 @@ class ToolbarController extends Controller
 
         $this->origin = app('request')->create($request->query('origin'));
 
-        $this->entry = Entry::findByUri(
-            $this->origin->getPathInfo(),
-            Site::findByUrl($this->origin->url())
-        );
+        $this->entry = $this->findEntryByOrigin();
 
         $toolbarData = [
             'breakpoints' => $this->getBreakpoints(),
@@ -36,6 +34,28 @@ class ToolbarController extends Controller
         $toolbarData = array_filter($toolbarData, fn ($value) => ! is_null($value));
 
         return response()->json($toolbarData);
+    }
+
+    protected function findEntryByOrigin()
+    {
+        $site = Site::findByUrl($this->origin->url());
+
+        $path = $this->trimSiteFromPath($this->origin->getPathInfo(), $site?->url() ?? '/');
+
+        return Entry::findByUri($path, $site);
+    }
+
+    protected function trimSiteFromPath(string $path, string $site): string
+    {
+        $site = parse_url($site)['path'] ?? $site;
+
+        if ($path === $site) {
+            return '/';
+        }
+
+        $path = Str::removeLeft($path, $site . '/');
+
+        return Str::ensureLeft($path, '/');
     }
 
     protected function getBreakpoints(): array|null
