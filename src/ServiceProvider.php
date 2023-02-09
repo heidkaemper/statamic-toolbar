@@ -14,10 +14,18 @@ class ServiceProvider extends AddonServiceProvider
 
         Statamic::booted(function () {
             $this
+                ->bootAddonRoutes()
                 ->bootAddonMiddleware()
                 ->bootAddonViews()
                 ->publishAddonAssets();
         });
+    }
+
+    protected function bootAddonRoutes(): self
+    {
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+
+        return $this;
     }
 
     protected function bootAddonMiddleware(): self

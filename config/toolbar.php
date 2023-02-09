@@ -49,4 +49,15 @@ return [
         // 'large' => '(min-width: 1024px)'
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Route prefix
+    |--------------------------------------------------------------------------
+    |
+    | The Toolbar has to create a route for retrieving frontend data. You
+    | can override the prefix (URL) if necessary.
+    |
+    */
+
+    'route_prefix' => '_toolbar',
 ];
