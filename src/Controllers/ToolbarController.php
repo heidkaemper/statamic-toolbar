@@ -28,7 +28,7 @@ class ToolbarController extends Controller
             'site' => $this->getSite(),
             'template' => $this->getTemplate(),
             'cp_link' => $this->getCpLink(),
-            'visibility' => config('statamic.toolbar.components.visibility'),
+            'visibility' => config('statamic.toolbar.components.visibility', true),
         ];
 
         $toolbarData = array_filter($toolbarData, fn ($value) => ! is_null($value));
@@ -60,7 +60,7 @@ class ToolbarController extends Controller
 
     protected function getBreakpoints(): array|null
     {
-        if (! config('statamic.toolbar.components.breakpoint')) {
+        if (! config('statamic.toolbar.components.breakpoint', true)) {
             return null;
         }
 
@@ -69,7 +69,7 @@ class ToolbarController extends Controller
 
     protected function getSite(): string|null
     {
-        if (! config('statamic.toolbar.components.site')) {
+        if (! config('statamic.toolbar.components.site', true)) {
             return null;
         }
 
@@ -78,7 +78,7 @@ class ToolbarController extends Controller
 
     protected function getTemplate(): string|null
     {
-        if (! config('statamic.toolbar.components.template')) {
+        if (! config('statamic.toolbar.components.template', true)) {
             return null;
         }
 
@@ -93,7 +93,7 @@ class ToolbarController extends Controller
 
     protected function getCpLink(): string|null
     {
-        if (! config('statamic.toolbar.components.cp_link')) {
+        if (! config('statamic.toolbar.components.cp_link', true)) {
             return null;
         }
 
