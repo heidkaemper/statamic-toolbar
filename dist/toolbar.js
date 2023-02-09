@@ -3,6 +3,14 @@ var toolbar=function(){"use strict";function k(){}function U(t){return t()}funct
   outline: none;
 }
 
+@keyframes loaded {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 #toolbar {
   position: fixed;
   bottom: 0;
@@ -18,6 +26,7 @@ var toolbar=function(){"use strict";function k(){}function U(t){return t()}funct
   height: 33px;
   display: flex;
   align-items: stretch;
+  animation: loaded 300ms;
 }
 #toolbar .cell {
   appearance: none;

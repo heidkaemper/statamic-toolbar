@@ -3,6 +3,11 @@
     outline: none;
 }
 
+@keyframes loaded {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+
 #toolbar {
     position: fixed;
     bottom: 0;
@@ -18,6 +23,7 @@
     height: 33px;
     display: flex;
     align-items: stretch;
+    animation: loaded 300ms;
 
     .cell {
         appearance: none;
