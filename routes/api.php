@@ -3,10 +3,11 @@
 use Heidkaemper\Toolbar\Controllers\ToolbarController;
 use Heidkaemper\Toolbar\Middleware\ToolbarEnabled;
 use Illuminate\Support\Facades\Route;
+use Statamic\Http\Middleware\AuthGuard;
 
 $config = [
     'prefix' => config('statamic.toolbar.route_prefix', '_toolbar'),
-    'middleware' => [ToolbarEnabled::class],
+    'middleware' => [AuthGuard::class, ToolbarEnabled::class],
 ];
 
 Route::group($config, function () {

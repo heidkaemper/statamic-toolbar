@@ -15,7 +15,7 @@
     let debugbarStatus = null;
 
     onMount(() => {
-        fetch(endpoint)
+        fetch(endpoint + '?origin=' + encodeURIComponent(document.location.href))
             .then(response => response.json())
             .then(response => toolbar = response);
 

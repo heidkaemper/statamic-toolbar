@@ -3,18 +3,27 @@
 namespace Heidkaemper\Toolbar\Controllers;
 
 use Heidkaemper\Toolbar\Breakpoints\Breakpoints;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Statamic\Facades\Entry;
+use Statamic\Facades\Site;
 
 class ToolbarController extends Controller
 {
-    protected $path;
+    protected $origin;
+
     protected $entry;
 
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        $this->path = '/';
-        $this->entry = Entry::findByUri($this->path); // todo: site?
+        abort_unless($request->query('origin'), 404);
+
+        $this->origin = app('request')->create($request->query('origin'));
+
+        $this->entry = Entry::findByUri(
+            $this->origin->getPathInfo(),
+            Site::findByUrl($this->origin->url())
+        );
 
         $toolbarData = [
             'breakpoints' => $this->getBreakpoints(),
@@ -57,7 +66,7 @@ class ToolbarController extends Controller
             return $template;
         }
 
-        $route = app('router')->getRoutes()->match(app('request')->create($this->path));
+        $route = app('router')->getRoutes()->match($this->origin);
 
         return $route->parameters()['view'] ?? null;
     }
