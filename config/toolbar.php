@@ -54,8 +54,8 @@ return [
     | Route prefix
     |--------------------------------------------------------------------------
     |
-    | The Toolbar has to create a route for retrieving frontend data. You
-    | can override the prefix (URL) if necessary.
+    | The Toolbar has to create a route to fetch frontend data. You can
+    | override the prefix (URL) if necessary.
     |
     */
 
