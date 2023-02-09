@@ -1,3 +1,3 @@
-<script src="/vendor/statamic-toolbar/toolbar.js" defer></script>
+<script src="/vendor/statamic-toolbar/toolbar.js?{{ $version }}" defer></script>
 
-@nocache('statamic-toolbar::toolbar')
+<statamic-toolbar endpoint="{{ $endpoint }}"></statamic-toolbar>

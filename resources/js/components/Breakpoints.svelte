@@ -1,21 +1,17 @@
 <svelte:window bind:innerWidth={windowWidth} />
 
 <script>
-    import { onMount } from 'svelte';
     import Storage from './../helper/Storage';
 
     export let breakpoints;
-    
+
     let windowWidth = 0;
+    let isButton = Object.keys(breakpoints).length >= 1;
     let type = 'width';
 
-    $: isButton = breakpoints === 'labels';
-
-    onMount(() => {
-        if (breakpoints === 'labels') {
-            type = Storage.get('statamic.toolbar.breakpoints.type') ?? 'labels';
-        }
-    });
+    if (isButton) {
+        type = Storage.get('statamic.toolbar.breakpoints.type') ?? 'labels';
+    }
 
     function handleClick() {
         if (! isButton) {
@@ -35,6 +31,16 @@
 
         Storage.set('statamic.toolbar.breakpoints.type', type);
 	}
+
+    function getMediaQueryStyles() {
+        let styles = '.breakpoints::before { content: "\\2014" }';
+
+        Object.entries(breakpoints).forEach(function (breakpoint) {
+            styles += `@media (${breakpoint[1]}) { .breakpoints::before { content: "${breakpoint[0]}" } }`;
+        });
+
+        return `<style>${styles}</style>`;
+    }
 </script>
 
 <div
@@ -50,7 +56,7 @@
     <span class="cell_content cell_breakpoint_indicator">
         {#if type === 'labels' || type === 'both'}
             <span class="breakpoints">
-                <slot></slot>
+                {@html getMediaQueryStyles()}
             </span>
         {/if}
 

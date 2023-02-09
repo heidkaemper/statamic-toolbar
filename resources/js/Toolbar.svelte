@@ -8,16 +8,17 @@
     import CpLink from './components/CpLink.svelte';
     import Site from './components/Site.svelte';
 
-    export let breakpoints = false;
-    export let site = false;
-    export let template = false;
-    export let cp_link = false;
-    export let visibility = false;
+    export let endpoint;
 
+    let toolbar = null;
     let isHidden = false;
     let debugbarStatus = null;
 
     onMount(() => {
+        fetch(endpoint + '?origin=' + encodeURIComponent(document.location.href))
+            .then(response => response.json())
+            .then(response => toolbar = response);
+
         const debugbar = document.documentElement.querySelector('.phpdebugbar');
 
         if (debugbar) {
@@ -32,25 +33,23 @@
     class:debugbarClosed={ debugbarStatus === 'closed' }
     class:debugbarMinimized={ debugbarStatus === 'minimized' }
 >
-    {#if breakpoints}
-        <Breakpoints {breakpoints}>
-            <slot></slot>
-        </Breakpoints>
+    {#if toolbar?.breakpoints}
+        <Breakpoints breakpoints={toolbar.breakpoints}/>
     {/if}
 
-    {#if site}
-        <Site {site}/>
+    {#if toolbar?.site}
+        <Site site={toolbar.site}/>
     {/if}
 
-    {#if template}
-        <Template {template}/>
+    {#if toolbar?.template}
+        <Template template={toolbar.template}/>
     {/if}
 
-    {#if cp_link}
-        <CpLink {cp_link}/>
+    {#if toolbar?.cp_link}
+        <CpLink cp_link={toolbar.cp_link}/>
     {/if}
 
-    {#if visibility}
+    {#if toolbar?.visibility}
         <Visibility callback={hidden => isHidden = hidden}/>
     {/if}
 
