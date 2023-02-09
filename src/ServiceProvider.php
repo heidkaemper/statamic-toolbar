@@ -60,7 +60,7 @@ class ServiceProvider extends AddonServiceProvider
     protected function publishAddonAssets(): void
     {
         $this->publishes([
-            __DIR__ . '/../dist/toolbar.css' => public_path('vendor/statamic-toolbar/toolbar.css'),
+            __DIR__ . '/../dist/toolbar.js' => public_path('vendor/statamic-toolbar/toolbar.js'),
         ], 'statamic-toolbar-assets');
 
         Statamic::afterInstalled(function ($command) {
