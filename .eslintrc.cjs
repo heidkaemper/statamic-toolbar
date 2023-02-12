@@ -102,6 +102,9 @@ module.exports = {
                 "max": 2
             }
         ],
+        "no-tabs": [
+            "error"
+        ],
         "no-trailing-spaces": [
             "error"
         ],

@@ -30,7 +30,7 @@
         }
 
         Storage.set('statamic.toolbar.breakpoints.type', type);
-	}
+    }
 
     function getMediaQueryStyles() {
         let styles = '.breakpoints::before { content: "\\2014" }';
