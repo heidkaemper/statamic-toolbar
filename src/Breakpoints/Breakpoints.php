@@ -2,6 +2,7 @@
 
 namespace Heidkaemper\Toolbar\Breakpoints;
 
+use Heidkaemper\Toolbar\Breakpoints\Parser\PicoParser;
 use Heidkaemper\Toolbar\Breakpoints\Parser\TailwindParser;
 use Illuminate\Support\Collection;
 
@@ -16,6 +17,7 @@ class Breakpoints
         $this
             ->getFromConfig()
             ->getFromTailwind()
+            ->getFromPico()
             ->format();
     }
 
@@ -26,26 +28,41 @@ class Breakpoints
 
     private function getFromConfig(): self
     {
-        if ($this->breakpoints->isEmpty()) {
-            $this->breakpoints = collect(config('statamic.toolbar.breakpoints', []));
+        if (! $this->breakpoints->isEmpty()) {
+            return $this;
         }
+
+        $this->breakpoints = collect(config('statamic.toolbar.breakpoints', []));
 
         return $this;
     }
 
     private function getFromTailwind(): self
     {
-        if ($this->breakpoints->isEmpty()) {
-            $files = [
-                'tailwind.config.js',
-                'tailwind.config.theme.js',
-                'tailwind.config.site.js',
-            ];
-
-            $this->breakpoints = Cache::remember('tailwind', $files, function () use ($files) {
-                return collect((new TailwindParser($files))->parse() ?? []);
-            });
+        if (! $this->breakpoints->isEmpty()) {
+            return $this;
         }
+
+        $files = [
+            'tailwind.config.js',
+            'tailwind.config.theme.js',
+            'tailwind.config.site.js',
+        ];
+
+        $this->breakpoints = Cache::remember('tailwind', $files, function () use ($files) {
+            return collect((new TailwindParser($files))->parse() ?? []);
+        });
+
+        return $this;
+    }
+
+    private function getFromPico(): self
+    {
+        if (! $this->breakpoints->isEmpty()) {
+            return $this;
+        }
+
+        $this->breakpoints = collect((new PicoParser())->parse() ?? []);
 
         return $this;
     }
