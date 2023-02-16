@@ -43,7 +43,17 @@ class TailwindParser
 
     private function guessWetherTailwindIsUsed(): bool
     {
-        return file_exists(base_path('tailwind.config.js')) || file_exists(base_path('node_modules/tailwindcss'));
+        if (file_exists(base_path('tailwind.config.js'))) {
+            return true;
+        }
+
+        $npm = base_path('package.json');
+
+        if (file_exists($npm) && strpos(file_get_contents($npm), '"tailwindcss"')) {
+            return true;
+        }
+
+        return false;
     }
 
     private function parseConfigFile($filename): void

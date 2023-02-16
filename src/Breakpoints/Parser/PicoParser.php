@@ -23,6 +23,16 @@ class PicoParser
 
     private function guessWetherPicoIsUsed(): bool
     {
-        return file_exists(base_path('node_modules/@picocss/pico')) || file_exists(public_path('css/pico.min.css'));
+        if (file_exists(public_path('css/pico.min.css'))) {
+            return true;
+        }
+
+        $npm = base_path('package.json');
+
+        if (file_exists($npm) && strpos(file_get_contents($npm), '"@picocss/pico"')) {
+            return true;
+        }
+
+        return false;
     }
 }
