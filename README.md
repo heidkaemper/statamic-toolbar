@@ -11,7 +11,7 @@ This addon adds a toolbar in the lower left corner of your Statamic CMS frontend
 - Current Template
 - Link to Control Panel
 
-\* The Breakpoint Indicator *tries* to determine media queries automatically if you use Tailwind CSS.
+\* The Breakpoint Indicator *tries* to determine media queries automatically if you use [Tailwind CSS](https://tailwindcss.com/) or [Pico.css](https://picocss.com/).
 
 ## Installation
 
