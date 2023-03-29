@@ -4,14 +4,28 @@
 }
 
 #toolbar {
+    --color-text: #555;
+    --color-text-shadow: #fff;
+    --color-background: #fff;
+    --color-cell-border: #ddd;
+    --color-cell-hover: #ebebeb;
+
+    @media (prefers-color-scheme: dark) {
+        --color-text: #EDF2F7;
+        --color-text-shadow: #4A5568;
+        --color-background: #1A202C;
+        --color-cell-border: #2D3748;
+        --color-cell-hover: #4A5568;
+    }
+
     position: fixed;
     bottom: 0;
     left: 0;
     z-index: 5999999;
     font: normal normal 13px/1.1 "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
-    color: #555;
-    text-shadow: 1px 1px #fff;
-    background: #fff;
+    color: var(--color-text);
+    text-shadow: 1px 1px var(--color-text-shadow);
+    background: var(--color-background);
     border-top: 3px solid #FF269E;
     border-top-right-radius: 5px;
     overflow: hidden;
@@ -32,7 +46,7 @@
         justify-content: center;
         align-items: center;
         gap: 0 4px;
-        border-right: 1px solid #ddd;
+        border-right: 1px solid var(--color-cell-border);
         padding: 0 8px;
         min-width: 34px;
         color: inherit;
@@ -40,7 +54,7 @@
         user-select: none;
 
         &[href]:hover, &[role='button']:hover {
-            background: #ebebeb;
+            background: var(--color-cell-hover);
             cursor: pointer;
         }
 
@@ -54,7 +68,7 @@
         &_content {
             max-width: 140px;
             overflow: hidden;
-            white-space: nowrap;            
+            white-space: nowrap;
         }
 
         &_breakpoint_indicator {
