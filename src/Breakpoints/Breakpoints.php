@@ -2,6 +2,7 @@
 
 namespace Heidkaemper\Toolbar\Breakpoints;
 
+use Heidkaemper\Toolbar\Breakpoints\Parser\BootstrapParser;
 use Heidkaemper\Toolbar\Breakpoints\Parser\PicoParser;
 use Heidkaemper\Toolbar\Breakpoints\Parser\TailwindParser;
 use Illuminate\Support\Collection;
@@ -18,6 +19,7 @@ class Breakpoints
             ->getFromConfig()
             ->getFromTailwind()
             ->getFromPico()
+            ->getFromBootstrap()
             ->format();
     }
 
@@ -63,6 +65,17 @@ class Breakpoints
         }
 
         $this->breakpoints = collect((new PicoParser())->parse() ?? []);
+
+        return $this;
+    }
+
+    private function getFromBootstrap(): self
+    {
+        if (! $this->breakpoints->isEmpty()) {
+            return $this;
+        }
+
+        $this->breakpoints = collect((new BootstrapParser())->parse() ?? []);
 
         return $this;
     }
