@@ -75,7 +75,14 @@ class Breakpoints
             return $this;
         }
 
-        $this->breakpoints = collect((new BootstrapParser())->parse() ?? []);
+        $files = [
+            'scss/_variables.scss',
+            'sass/_variables.scss',
+        ];
+
+        $this->breakpoints = Cache::remember('bootstrap', $files, function () use ($files) {
+            return collect((new BootstrapParser($files))->parse() ?? []);
+        });
 
         return $this;
     }

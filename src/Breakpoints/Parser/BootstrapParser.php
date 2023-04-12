@@ -13,17 +13,36 @@ class BootstrapParser
         'xxl' => 'min-width: 1400px',
     ];
 
+    protected array|null $screens = null;
+
+    public function __construct(
+        protected array $files,
+    ) {
+    }
+
     public function parse(): array|null
     {
         if (! $this->guessWetherBootstrapIsUsed()) {
             return null;
         }
 
-        return $this->defaults;
+        foreach ($this->files as $file) {
+            $this->parseConfigFile($file);
+
+            if (! is_null($this->screens)) {
+                break;
+            }
+        }
+
+        return $this->screens ?? $this->defaults;
     }
 
     private function guessWetherBootstrapIsUsed(): bool
     {
+        if (file_exists(resource_path('scss/bootstrap.scss')) || file_exists(resource_path('sass/bootstrap.scss'))) {
+            return true;
+        }
+
         $npm = base_path('package.json');
 
         if (file_exists($npm) && strpos(file_get_contents($npm), '"bootstrap"')) {
@@ -31,5 +50,35 @@ class BootstrapParser
         }
 
         return false;
+    }
+
+    private function parseConfigFile($filename): void
+    {
+        if (! file_exists(resource_path($filename))) {
+            return;
+        }
+
+        $source = file_get_contents(resource_path($filename));
+
+        if (! preg_match('/\$grid-breakpoints:\s*?\((?<screens>.*?)\)/si', $source, $matches)) {
+            return;
+        }
+
+        $screens = collect(explode(',', $matches['screens']))
+            ->mapWithKeys(function ($screen) {
+                if (! str_contains($screen, ':')) {
+                    return [];
+                }
+
+                [$key, $value] = explode(':', $screen);
+
+                return [trim($key) => trim($value)];
+            });
+
+        if (! $screens->count()) {
+            return;
+        }
+
+        $this->screens = $screens->toArray();
     }
 }
