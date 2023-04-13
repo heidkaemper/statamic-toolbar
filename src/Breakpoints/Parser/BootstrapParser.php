@@ -73,6 +73,13 @@ class BootstrapParser
                 [$key, $value] = explode(':', $screen);
 
                 return [trim($key) => trim($value)];
+            })
+            ->map(function ($value) {
+                if (is_numeric($value)) {
+                    return "min-width: {$value}px";
+                }
+
+                return (string) preg_match('/^[0-9]*.{2,3}$/', $value) ? "min-width: {$value}" : $value;
             });
 
         if (! $screens->count()) {
