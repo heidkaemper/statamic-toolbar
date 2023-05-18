@@ -14,6 +14,7 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
       - run: composer update --prefer-dist --no-interaction
+      - run: composer phpcs
       - run: composer test
 
   node:
