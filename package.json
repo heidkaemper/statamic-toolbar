@@ -11,12 +11,12 @@
         "lint:fix": "npx eslint resources/js/**/*.{js,svelte} --fix"
     },
     "devDependencies": {
-        "@sveltejs/vite-plugin-svelte": "^2.0.2",
-        "eslint": "^8.33.0",
+        "@sveltejs/vite-plugin-svelte": "^2.4.6",
+        "eslint": "^8.51.0",
         "eslint-plugin-svelte3": "^4.0.0",
-        "sass": "^1.58.0",
-        "svelte": "^3.55.1",
-        "svelte-preprocess": "^5.0.1",
-        "vite": "^4.0.4"
+        "sass": "^1.69.3",
+        "svelte": "^3.59.2",
+        "svelte-preprocess": "^5.0.4",
+        "vite": "^4.4.11"
     }
 }

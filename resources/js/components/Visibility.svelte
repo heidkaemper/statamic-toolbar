@@ -27,6 +27,7 @@
 <div
     on:click={ handleClick }
     role="button"
+    tabindex="-1"
     title="{ isHidden ? 'Show Toolbar' : 'Hide Toolbar' }"
     class="cell"
 >
