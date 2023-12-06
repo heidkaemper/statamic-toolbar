@@ -7,7 +7,11 @@ use Statamic\Http\Middleware\AuthGuard;
 
 $config = [
     'prefix' => config('statamic.toolbar.route_prefix', '_toolbar'),
-    'middleware' => [AuthGuard::class, ToolbarEnabled::class],
+    'middleware' => [
+        config('statamic.routes.middleware', 'web'),
+        AuthGuard::class,
+        ToolbarEnabled::class,
+    ],
 ];
 
 Route::group($config, function () {

@@ -93,11 +93,7 @@ class ToolbarController extends Controller
 
     protected function getCpLink(): string|null
     {
-        if (! config('statamic.toolbar.components.cp_link', true)) {
-            return null;
-        }
-
-        if (! auth()->check() && config('app.env') !== 'local') {
+        if (! config('statamic.toolbar.components.cp_link', true) || ! auth()->check()) {
             return null;
         }
 
