@@ -14,22 +14,14 @@ export default defineConfig({
     },
     plugins: [
         svelte({
-            include: 'resources/js/Toolbar.svelte',
             compilerOptions: {
                 customElement: true,
-                tag: 'statamic-toolbar',
             },
             preprocess: sveltePreprocess({
                 scss: {
                     includePaths: ['resources/css'],
                 },
             }),
-        }),
-        svelte({
-            exclude: 'resources/js/Toolbar.svelte',
-            compilerOptions: {
-                customElement: false,
-            },
         }),
     ],
 });
