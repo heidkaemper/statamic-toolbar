@@ -1,3 +1,5 @@
+<svelte:options customElement="statamic-toolbar" />
+
 <script>
     import { onMount } from 'svelte';
     import DebugbarObserver from './helper/DebugbarObserver';

@@ -39,7 +39,8 @@
             styles += `@media (${breakpoint[1]}) { .breakpoints::before { content: "${breakpoint[0]}" } }`;
         });
 
-        return `<style>${styles}</style>`;
+        // https://github.com/sveltejs/svelte/issues/5292
+        return `<${''}style>${styles}</${''}style>`;
     }
 </script>
 
