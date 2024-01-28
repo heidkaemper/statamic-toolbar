@@ -5,12 +5,12 @@
     "description": "A Statamic CMS frontend helper",
     "require": {
         "statamic/cms": "3.3.* || 3.4.* || ^4.0",
-        "mck89/peast": "^1.15"
+        "mck89/peast": "^1.16"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.35",
-        "orchestra/testbench": "^7.24",
-        "pestphp/pest": "^1.23"
+        "friendsofphp/php-cs-fixer": "^3.39",
+        "orchestra/testbench": "^8.21",
+        "pestphp/pest": "^2.33"
     },
     "autoload": {
         "psr-4": {
