@@ -25,5 +25,5 @@ jobs:
         with:
           node-version: '18.x'
       - run: yarn
-      - run: yarn eslint
+      - run: yarn lint
       - run: yarn build
