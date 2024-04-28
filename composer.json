@@ -8,7 +8,7 @@
         "mck89/peast": "^1.16"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.39",
+        "friendsofphp/php-cs-fixer": "^3.54",
         "orchestra/testbench": "^8.21",
         "pestphp/pest": "^2.33"
     },
