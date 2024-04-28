@@ -29,6 +29,7 @@ class ToolbarController extends Controller
             'template' => $this->getTemplate(),
             'cp_link' => $this->getCpLink(),
             'visibility' => config('statamic.toolbar.components.visibility', true),
+            'theme' => env('STATAMIC_TOOLBAR_THEME', config('debugbar.theme', 'auto')),
         ];
 
         $toolbarData = array_filter($toolbarData, fn ($value) => ! is_null($value));

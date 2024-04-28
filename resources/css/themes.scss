@@ -1,0 +1,29 @@
+@mixin light {
+    --color-text: #555;
+    --color-text-shadow: #fff;
+    --color-background: #fff;
+    --color-cell-border: #ddd;
+    --color-cell-hover: #ebebeb;
+}
+
+@mixin dark {
+    --color-text: #EDF2F7;
+    --color-text-shadow: #4A5568;
+    --color-background: #252a37;
+    --color-cell-border: #2D3748;
+    --color-cell-hover: #4A5568;
+}
+
+#toolbar {
+    @include light;
+}
+
+#toolbar[theme="dark"] {
+    @include dark;
+}
+
+#toolbar[theme="auto"] {
+    @media (prefers-color-scheme: dark) {
+        @include dark;
+    }
+}

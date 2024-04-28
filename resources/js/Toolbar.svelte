@@ -34,6 +34,7 @@
     class:isHidden
     class:debugbarClosed={ debugbarStatus === 'closed' }
     class:debugbarMinimized={ debugbarStatus === 'minimized' }
+    theme={toolbar?.theme ?? 'auto'}
 >
     {#if toolbar?.breakpoints}
         <Breakpoints breakpoints={toolbar.breakpoints}/>

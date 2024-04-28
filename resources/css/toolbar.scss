@@ -1,23 +1,11 @@
+@use "themes";
+
 @keyframes loaded {
     from { opacity: 0 }
     to { opacity: 1 }
 }
 
 #toolbar {
-    --color-text: #555;
-    --color-text-shadow: #fff;
-    --color-background: #fff;
-    --color-cell-border: #ddd;
-    --color-cell-hover: #ebebeb;
-
-    @media (prefers-color-scheme: dark) {
-        --color-text: #EDF2F7;
-        --color-text-shadow: #4A5568;
-        --color-background: #1A202C;
-        --color-cell-border: #2D3748;
-        --color-cell-hover: #4A5568;
-    }
-
     position: fixed;
     bottom: 0;
     left: 0;
@@ -98,7 +86,7 @@
     }
 
     &.debugbarClosed {
-        left: 40px;
+        left: 41px;
     }
 
     &.debugbarOpen,
