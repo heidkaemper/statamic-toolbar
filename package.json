@@ -7,8 +7,8 @@
         "watch": "vite build --watch",
         "prod": "npm run build",
         "build": "vite build",
-        "lint": "npx eslint resources/js/**/*.{js,svelte}",
-        "lint:fix": "npx eslint resources/js/**/*.{js,svelte} --fix"
+        "lint": "npx eslint resources/js",
+        "lint:fix": "npx eslint resources/js --fix"
     },
     "devDependencies": {
         "@eslint/js": "^9.1.1",
