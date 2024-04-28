@@ -1,46 +1,46 @@
 <svelte:window bind:innerWidth={windowWidth} />
 
 <script>
-    import Storage from './../helper/Storage';
+    import Storage from './../helper/Storage'
 
-    export let breakpoints;
+    export let breakpoints
 
-    let windowWidth = 0;
-    let isButton = Object.keys(breakpoints).length >= 1;
-    let type = 'width';
+    let windowWidth = 0
+    let isButton = Object.keys(breakpoints).length >= 1
+    let type = 'width'
 
     if (isButton) {
-        type = Storage.get('statamic.toolbar.breakpoints.type') ?? 'labels';
+        type = Storage.get('statamic.toolbar.breakpoints.type') ?? 'labels'
     }
 
     function handleClick() {
         if (! isButton) {
-            return;
+            return
         }
 
         switch (type) {
             case 'labels':
-                type = 'both';
-                break;
+                type = 'both'
+                break
             case 'both':
-                type = 'width';
-                break;
+                type = 'width'
+                break
             default:
-                type = 'labels';
+                type = 'labels'
         }
 
-        Storage.set('statamic.toolbar.breakpoints.type', type);
+        Storage.set('statamic.toolbar.breakpoints.type', type)
     }
 
     function getMediaQueryStyles() {
-        let styles = '.breakpoints::before { content: "\\2014" }';
+        let styles = '.breakpoints::before { content: "\\2014" }'
 
         Object.entries(breakpoints).forEach(function (breakpoint) {
-            styles += `@media (${breakpoint[1]}) { .breakpoints::before { content: "${breakpoint[0]}" } }`;
-        });
+            styles += `@media (${breakpoint[1]}) { .breakpoints::before { content: "${breakpoint[0]}" } }`
+        })
 
         // https://github.com/sveltejs/svelte/issues/5292
-        return `<${''}style>${styles}</${''}style>`;
+        return `<${''}style>${styles}</${''}style>`
     }
 </script>
 

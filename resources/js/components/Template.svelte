@@ -1,5 +1,5 @@
 <script>
-    export let template;
+    export let template
 </script>
 
 <div title="Template: {template}" class="cell">

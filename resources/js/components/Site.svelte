@@ -1,5 +1,5 @@
 <script>
-    export let site;
+    export let site
 </script>
 
 <div title="Site: {site}" class="cell">

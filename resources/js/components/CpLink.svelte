@@ -1,5 +1,5 @@
 <script>
-    export let cp_link;
+    export let cp_link
 </script>
 
 <a href={cp_link} target="_blank" rel="noreferrer" title="Edit this page" class="cell">

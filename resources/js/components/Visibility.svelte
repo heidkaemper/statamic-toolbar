@@ -1,25 +1,25 @@
 <script>
-    import { onMount } from 'svelte';
-    import Storage from './../helper/Storage';
+    import { onMount } from 'svelte'
+    import Storage from './../helper/Storage'
 
-    export let callback;
+    export let callback
 
-    let isHidden = false;
+    let isHidden = false
 
     onMount(() => {
         if (Storage.has('statamic.toolbar.hidden')) {
-            isHidden = Storage.get('statamic.toolbar.hidden');
+            isHidden = Storage.get('statamic.toolbar.hidden')
 
-            setTimeout(() => callback(isHidden), 500);
+            setTimeout(() => callback(isHidden), 500)
         }
-    });
+    })
 
     function handleClick() {
-        isHidden = ! isHidden;
+        isHidden = ! isHidden
 
-        Storage.set('statamic.toolbar.hidden', isHidden);
+        Storage.set('statamic.toolbar.hidden', isHidden)
 
-        callback(isHidden);
+        callback(isHidden)
     }
 </script>
 
