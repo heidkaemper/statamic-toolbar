@@ -23,7 +23,7 @@ var toolbar=function(){"use strict";var re=Object.defineProperty;var oe=(g,x,j)=
   border-top: 3px solid #FF269E;
   border-top-right-radius: 5px;
   overflow: hidden;
-  height: 32px;
+  height: 30px;
   display: flex;
   align-items: stretch;
   animation: loaded 300ms;
