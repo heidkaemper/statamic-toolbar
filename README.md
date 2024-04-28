@@ -36,7 +36,7 @@ Have a look at the [configuration file](config/toolbar.php) for available option
 
 ---
 
-<a href="https://statamic.com"><img src="https://img.shields.io/badge/Statamic-3.3+-FF269E?style=for-the-badge"></a>
+<a href="https://statamic.com/addons/heidkaemper/toolbar"><img src="https://img.shields.io/badge/Statamic-3.4+-FF269E?style=for-the-badge"></a>
 <a href="https://packagist.org/packages/heidkaemper/statamic-toolbar"><img src="https://img.shields.io/packagist/v/heidkaemper/statamic-toolbar?style=for-the-badge"></a>
 
 <!-- /statamic:hide -->
