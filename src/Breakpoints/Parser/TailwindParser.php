@@ -17,14 +17,14 @@ class TailwindParser
         '2xl' => 'min-width: 1536px',
     ];
 
-    protected array|null $screens = null;
+    protected ?array $screens = null;
 
     public function __construct(
         protected array $files,
     ) {
     }
 
-    public function parse(): array|null
+    public function parse(): ?array
     {
         if (! $this->guessWetherTailwindIsUsed()) {
             return null;
@@ -97,12 +97,12 @@ class TailwindParser
         $this->sortByMinWidth();
     }
 
-    private function getRawKeyName($key): string|null
+    private function getRawKeyName($key): ?string
     {
         return $key instanceof StringLiteral ? $key?->getValue() : $key?->getRawName();
     }
 
-    private function getBreakpointMedia($media): string|null
+    private function getBreakpointMedia($media): ?string
     {
         if ($media instanceof StringLiteral) {
             $value = $media->getValue();

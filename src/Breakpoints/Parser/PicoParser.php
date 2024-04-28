@@ -12,7 +12,7 @@ class PicoParser
         'xl' => 'min-width: 1200px',
     ];
 
-    public function parse(): array|null
+    public function parse(): ?array
     {
         if (! $this->guessWetherPicoIsUsed()) {
             return null;

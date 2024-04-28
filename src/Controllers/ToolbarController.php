@@ -59,7 +59,7 @@ class ToolbarController extends Controller
         return Str::ensureLeft($path, '/');
     }
 
-    protected function getBreakpoints(): array|null
+    protected function getBreakpoints(): ?array
     {
         if (! config('statamic.toolbar.components.breakpoint', true)) {
             return null;
@@ -68,7 +68,7 @@ class ToolbarController extends Controller
         return (new Breakpoints())->toArray();
     }
 
-    protected function getSite(): string|null
+    protected function getSite(): ?string
     {
         if (! config('statamic.toolbar.components.site', true)) {
             return null;
@@ -77,7 +77,7 @@ class ToolbarController extends Controller
         return $this->entry?->site()->handle;
     }
 
-    protected function getTemplate(): string|null
+    protected function getTemplate(): ?string
     {
         if (! config('statamic.toolbar.components.template', true)) {
             return null;
@@ -92,7 +92,7 @@ class ToolbarController extends Controller
         return $route->parameters()['view'] ?? null;
     }
 
-    protected function getCpLink(): string|null
+    protected function getCpLink(): ?string
     {
         if (! config('statamic.toolbar.components.cp_link', true) || ! auth()->check()) {
             return null;

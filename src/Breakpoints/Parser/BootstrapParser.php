@@ -13,14 +13,14 @@ class BootstrapParser
         'xxl' => 'min-width: 1400px',
     ];
 
-    protected array|null $screens = null;
+    protected ?array $screens = null;
 
     public function __construct(
         protected array $files,
     ) {
     }
 
-    public function parse(): array|null
+    public function parse(): ?array
     {
         if (! $this->guessWetherBootstrapIsUsed()) {
             return null;
