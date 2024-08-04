@@ -66,3 +66,12 @@ it('does sort when all values have min-width', function () {
         '2xl' => 'min-width: 1536px',
     ]);
 });
+
+it('returns user values when using an esm config', function () {
+    copy(__DIR__ . '/../stubs/tailwindcss/esmConfig.stub.js', $this->config);
+
+    expect($this->parser->parse())->toBe([
+        'test' => 'min-width: 123px',
+        'test-max' => 'max-width: 456px',
+    ]);
+});

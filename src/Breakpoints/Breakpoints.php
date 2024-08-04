@@ -47,6 +47,7 @@ class Breakpoints
 
         $files = [
             'tailwind.config.js',
+            'tailwind.config.ts',
             'tailwind.config.theme.js',
             'tailwind.config.site.js',
         ];

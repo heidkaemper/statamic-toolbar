@@ -64,7 +64,9 @@ class TailwindParser
 
         $source = file_get_contents(base_path($filename));
 
-        $ast = Peast::latest($source)->parse();
+        $ast = Peast::latest($source, [
+            'sourceType' => Peast::SOURCE_TYPE_MODULE,
+        ])->parse();
 
         // search for 'screens' config
         $query = $ast->query("Property[key.name='screens']");
