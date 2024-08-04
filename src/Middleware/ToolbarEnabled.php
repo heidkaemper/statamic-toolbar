@@ -9,8 +9,7 @@ class ToolbarEnabled
 {
     public function __construct(
         protected Toolbar $toolbar,
-    ) {
-    }
+    ) {}
 
     public function handle($request, Closure $next)
     {

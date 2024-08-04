@@ -17,8 +17,7 @@ class BootstrapParser
 
     public function __construct(
         protected array $files,
-    ) {
-    }
+    ) {}
 
     public function parse(): ?array
     {

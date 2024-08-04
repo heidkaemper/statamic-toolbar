@@ -65,7 +65,7 @@ class Breakpoints
             return $this;
         }
 
-        $this->breakpoints = collect((new PicoParser())->parse() ?? []);
+        $this->breakpoints = collect((new PicoParser)->parse() ?? []);
 
         return $this;
     }

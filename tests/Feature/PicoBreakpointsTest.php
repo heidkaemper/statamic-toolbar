@@ -3,7 +3,7 @@
 use Heidkaemper\Toolbar\Breakpoints\Parser\PicoParser;
 
 beforeEach(function () {
-    $this->parser = new PicoParser();
+    $this->parser = new PicoParser;
 
     if (! file_exists(public_path('css'))) {
         mkdir(public_path('css'));

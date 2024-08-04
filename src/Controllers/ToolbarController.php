@@ -65,7 +65,7 @@ class ToolbarController extends Controller
             return null;
         }
 
-        return (new Breakpoints())->toArray();
+        return (new Breakpoints)->toArray();
     }
 
     protected function getSite(): ?string
