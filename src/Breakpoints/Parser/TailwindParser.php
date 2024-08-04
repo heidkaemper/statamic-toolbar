@@ -2,6 +2,7 @@
 
 namespace Heidkaemper\Toolbar\Breakpoints\Parser;
 
+use Illuminate\Support\Facades\Log;
 use Peast\Peast;
 use Peast\Syntax\Node\ObjectExpression;
 use Peast\Syntax\Node\Property;
@@ -63,9 +64,18 @@ class TailwindParser
 
         $source = file_get_contents(base_path($filename));
 
-        $ast = Peast::latest($source, [
-            'sourceType' => Peast::SOURCE_TYPE_MODULE,
-        ])->parse();
+        try {
+            $ast = Peast::latest($source, [
+                'sourceType' => Peast::SOURCE_TYPE_MODULE,
+            ])->parse();
+        } catch (\Exception $exception) {
+            Log::debug('Failed to parse Tailwind CSS configuration', [
+                'message' => $exception->getMessage(),
+                'filename' => base_path($filename),
+            ]);
+
+            return;
+        }
 
         // search for 'screens' config
         $query = $ast->query("Property[key.name='screens']");

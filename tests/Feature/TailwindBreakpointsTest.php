@@ -75,3 +75,15 @@ it('returns user values when using an esm config', function () {
         'test-max' => 'max-width: 456px',
     ]);
 });
+
+it('failes silent returns default values', function () {
+    file_put_contents($this->config, '{;;wrong syntax}');
+
+    expect($this->parser->parse())->toBe([
+        'sm' => 'min-width: 640px',
+        'md' => 'min-width: 768px',
+        'lg' => 'min-width: 1024px',
+        'xl' => 'min-width: 1280px',
+        '2xl' => 'min-width: 1536px',
+    ]);
+});
