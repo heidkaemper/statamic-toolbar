@@ -1,4 +1,4 @@
-<svelte:options customElement="statamic-toolbar" />
+<svelte:options customElement="toolbar-widget" />
 
 <script>
     import { onMount } from 'svelte'
