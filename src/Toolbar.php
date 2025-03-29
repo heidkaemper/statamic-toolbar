@@ -3,13 +3,19 @@
 namespace Heidkaemper\Toolbar;
 
 use Composer\InstalledVersions;
+use Statamic\Facades\Preference;
 use Symfony\Component\HttpFoundation\Response;
 
 class Toolbar
 {
     public function isEnabled(): bool
     {
-        return config('statamic.toolbar.enabled') ?? config('app.debug', false);
+        $cookie = null;
+        if ( Preference::get( 'toolbar_cookie_disabled', true ) ) {
+            $cname = config( 'statamic.toolbar.cookie', '' );
+            $cookie = request()->cookie( $cname );
+        }
+        return config( 'statamic.toolbar.enabled' ) ?? $cookie ?? config( 'app.debug', false );
     }
 
     public function inject(Response $response): void

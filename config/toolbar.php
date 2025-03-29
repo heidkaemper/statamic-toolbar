@@ -16,6 +16,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Statamic Cookie
+    |--------------------------------------------------------------------------
+    |
+    | If you provide a cookie name like "statamic_toolbar_cookie", then each
+    | time a user logs in the Toolbar will leave a cookie, making it possilbe
+    | to see the Toolbar even when it is disabled and you are not debugging.
+    |
+    */
+
+    'cookie' => env( 'STATAMIC_TOOLBAR_COOKIE', null ),
+
+    /*
+    |--------------------------------------------------------------------------
     | Components
     |--------------------------------------------------------------------------
     |

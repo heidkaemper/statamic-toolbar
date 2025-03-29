@@ -6,6 +6,7 @@ use Heidkaemper\Toolbar\Breakpoints\Breakpoints;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Statamic\Facades\Entry;
+use Statamic\Facades\Preference;
 use Statamic\Facades\Site;
 use Statamic\Support\Str;
 
@@ -100,4 +101,22 @@ class ToolbarController extends Controller
 
         return $this->entry?->editUrl();
     }
+
+    public function canUseToolbarCookie(): bool 
+    {
+        if ( !config('statamic.cp.enabled') ) {
+            return false;
+        }
+
+        if ( !auth()->check() ) {
+            return false;
+        }
+
+        if ( !auth()->user()->can('access cp') || !auth()->user()->can('use toolbar cookie') ) {
+            return false;
+        }
+
+        return !Preference::get('toolbar_cookie_disabled', false);
+    }
+    
 }
