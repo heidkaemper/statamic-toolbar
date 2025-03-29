@@ -96,7 +96,10 @@ class ToolbarController extends Controller
     protected function getCpLink(): ?string
     {
         if (! config('statamic.toolbar.components.cp_link', true) || ! auth()->check()) {
-            return null;
+            $cookie = request()->cookie(config( 'statamic.toolbar.cookie', '') );
+            if (!$cookie) {
+                return null;
+            }
         }
 
         return $this->entry?->editUrl();
