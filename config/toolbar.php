@@ -8,7 +8,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | The Toolbar is enabled by default, when app.debug is set to true.
-    | You can override this by setting true or false instead of null.
+    | You can override this by setting true, false or 'auth' instead of null.
+    | When set to 'auth', the Toolbar only appears when the user is logged in.
     |
     */
 
@@ -20,8 +21,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | Enable or disable Toolbar Components.
-    | Note that the Edit link (cp_link) only shows when logged in to Statamic
-    | or the app environment is set to local.
+    | Note that the Edit link (cp_link) only shows when user has permission
+    | to edit the page or app environment is set to local.
     |
     */
 
