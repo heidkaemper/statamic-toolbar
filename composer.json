@@ -5,12 +5,12 @@
     "description": "A Statamic CMS frontend helper",
     "require": {
         "statamic/cms": "^3.4 || ^4.0 || ^5.0",
-        "mck89/peast": "^1.16"
+        "mck89/peast": "^1.17"
     },
     "require-dev": {
-        "orchestra/testbench": "^9.0",
-        "pestphp/pest": "^2.34",
-        "laravel/pint": "^1.15"
+        "orchestra/testbench": "^10.2",
+        "pestphp/pest": "^3.8",
+        "laravel/pint": "^1.22"
     },
     "autoload": {
         "psr-4": {
