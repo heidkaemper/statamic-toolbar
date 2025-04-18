@@ -9,7 +9,28 @@ class Toolbar
 {
     public function isEnabled(): bool
     {
-        return config('statamic.toolbar.enabled') ?? config('app.debug', false);
+        if (config('statamic.toolbar.enabled') === true) {
+            return true;
+        }
+
+        if ($this->isEnabledByAuth()) {
+            return true;
+        }
+
+        if (config('statamic.toolbar.enabled') === null && config('app.debug')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isEnabledByAuth(): bool
+    {
+        if (config('statamic.toolbar.enabled') !== 'auth') {
+            return false;
+        }
+
+        return auth()->user()?->can('access cp') ?? false;
     }
 
     public function inject(Response $response): void

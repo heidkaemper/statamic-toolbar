@@ -16,7 +16,15 @@ class InjectToolbar
     {
         $response = $next($request);
 
-        if (! $this->toolbar->isEnabled() || $response->status() !== 200 || $request->query->has('live-preview')) {
+        if ($response->status() !== 200) {
+            return $response;
+        }
+
+        if ($request->query->has('live-preview')) {
+            return $response;
+        }
+
+        if (! $this->toolbar->isEnabled()) {
             return $response;
         }
 

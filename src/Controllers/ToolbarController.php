@@ -94,7 +94,11 @@ class ToolbarController extends Controller
 
     protected function getCpLink(): ?string
     {
-        if (! config('statamic.toolbar.components.cp_link', true) || ! auth()->check()) {
+        if (! config('statamic.toolbar.components.cp_link', true)) {
+            return null;
+        }
+
+        if (! auth()->user()?->can("view {$this->entry->collection->handle} entries")) {
             return null;
         }
 
