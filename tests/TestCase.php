@@ -3,17 +3,21 @@
 namespace Heidkaemper\Toolbar\Tests;
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Statamic\Auth\File\Role;
 use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Stache;
+use Statamic\Facades\User;
 
 class TestCase extends OrchestraTestCase
 {
+    protected $user;
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->setUpTestEntry();
+        $this->setUpTestData();
     }
 
     protected function getPackageProviders($app): array
@@ -33,7 +37,7 @@ class TestCase extends OrchestraTestCase
         $app['config']->set('statamic.toolbar', require (__DIR__ . '/../config/toolbar.php'));
     }
 
-    protected function setUpTestEntry(): void
+    protected function setUpTestData(): void
     {
         copy(__DIR__ . '/stubs/layout.antlers.stub.html', resource_path('views/layout.antlers.html'));
         copy(__DIR__ . '/stubs/template.antlers.stub.html', resource_path('views/template.antlers.html'));
@@ -50,6 +54,16 @@ class TestCase extends OrchestraTestCase
             ->collection('test')
             ->slug('test')
             ->published(true)
+            ->save();
+
+        $role = (new Role)
+            ->handle('test')
+            ->addPermission('access cp')
+            ->save();
+
+        $this->user = User::make()
+            ->email('john@example.com')
+            ->assignRole($role)
             ->save();
 
         Stache::clear();
