@@ -1,6 +1,5 @@
-import { defineConfig } from 'vite';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
-import sveltePreprocess from 'svelte-preprocess';
+import { defineConfig } from 'vite'
+import { svelte } from '@sveltejs/vite-plugin-svelte'
 
 export default defineConfig({
     publicDir: false,
@@ -12,16 +11,5 @@ export default defineConfig({
             fileName: (format) => 'toolbar.js'
         },
     },
-    plugins: [
-        svelte({
-            compilerOptions: {
-                customElement: true,
-            },
-            preprocess: sveltePreprocess({
-                scss: {
-                    includePaths: ['resources/css'],
-                },
-            }),
-        }),
-    ],
-});
+    plugins: [svelte()],
+})

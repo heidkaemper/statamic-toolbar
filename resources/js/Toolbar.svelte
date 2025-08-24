@@ -56,5 +56,7 @@
         <Visibility callback={hidden => isHidden = hidden}/>
     {/if}
 
-    <style src="./../css/toolbar.scss"></style>
+    <style>
+        @import "./../css/toolbar.css";
+    </style>
 </div>
