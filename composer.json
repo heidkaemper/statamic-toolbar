@@ -4,13 +4,13 @@
     "type": "statamic-addon",
     "description": "A Statamic CMS frontend helper",
     "require": {
-        "statamic/cms": "^3.4 || ^4.0 || ^5.0 || ^6.0",
+        "statamic/cms": "^5.0 || ^6.0",
         "mck89/peast": "^1.17"
     },
     "require-dev": {
-        "orchestra/testbench": "^10.6",
-        "pestphp/pest": "^3.8",
-        "laravel/pint": "^1.24"
+        "orchestra/testbench": "^10.9",
+        "pestphp/pest": "^4.3",
+        "laravel/pint": "^1.27"
     },
     "autoload": {
         "psr-4": {
