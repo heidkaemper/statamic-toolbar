@@ -2,12 +2,14 @@
 
 namespace Heidkaemper\Toolbar\Tests;
 
+use Heidkaemper\Toolbar\ServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Statamic\Auth\File\Role;
 use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Stache;
 use Statamic\Facades\User;
+use Statamic\Providers\StatamicServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {
@@ -23,8 +25,8 @@ class TestCase extends OrchestraTestCase
     protected function getPackageProviders($app): array
     {
         return [
-            \Statamic\Providers\StatamicServiceProvider::class,
-            \Heidkaemper\Toolbar\ServiceProvider::class,
+            StatamicServiceProvider::class,
+            ServiceProvider::class,
         ];
     }
 
