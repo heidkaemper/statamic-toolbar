@@ -5,16 +5,16 @@
 
 #toolbar {
     --color-text: #555;
-    --color-text-shadow: #fff;
     --color-background: #fff;
+    --color-left-border: transparent;
     --color-cell-border: #ddd;
     --color-cell-hover: #ebebeb;
 }
 
 #toolbar[theme="dark"] {
     --color-text: #EDF2F7;
-    --color-text-shadow: #4A5568;
     --color-background: #252a37;
+    --color-left-border: #2D3748;
     --color-cell-border: #2D3748;
     --color-cell-hover: #4A5568;
 }
@@ -22,8 +22,8 @@
 #toolbar[theme="auto"] {
     @media (prefers-color-scheme: dark) {
         --color-text: #EDF2F7;
-        --color-text-shadow: #4A5568;
         --color-background: #252a37;
+        --color-left-border: #2D3748;
         --color-cell-border: #2D3748;
         --color-cell-hover: #4A5568;
     }
@@ -34,14 +34,13 @@
     bottom: 0;
     left: 0;
     z-index: 5999999;
-    font: normal normal 13px/1.1 "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+    font: normal normal 14px/1.1 ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
     color: var(--color-text);
-    text-shadow: 1px 1px var(--color-text-shadow);
     background: var(--color-background);
     border-top: 3px solid #FF269E;
     border-top-right-radius: 5px;
     overflow: hidden;
-    height: 30px;
+    height: var(--debugbar-height, 30px);
     display: flex;
     align-items: stretch;
     animation: loaded 300ms;
@@ -78,6 +77,7 @@
         }
 
         .cell_content {
+            padding: 2px 0;
             max-width: 140px;
             overflow: hidden;
             white-space: nowrap;
@@ -110,12 +110,21 @@
     }
 
     &.debugbarClosed {
-        left: 41px;
+        left: calc(var(--debugbar-width, 40px) + 1px);
+
+        &::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            top: 0;
+            width: 1px;
+            background: var(--color-left-border);
+        }
     }
 
     &.debugbarOpen,
     &.debugbarMinimized {
-        height: 30px;
-        bottom: 33px;
+        bottom: calc(var(--debugbar-height, 33px) + 3px);
     }
 }

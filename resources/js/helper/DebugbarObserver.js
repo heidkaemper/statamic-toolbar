@@ -15,9 +15,21 @@ export default class {
 
     setStatus(debugbar) {
         if (debugbar.classList.contains('phpdebugbar-closed')) {
-            return this.callback('closed')
+            const restoreButton = debugbar.querySelector(':scope > .phpdebugbar-restore-btn')
+
+            return this.callback({
+                width: restoreButton?.offsetWidth > 0 ? restoreButton.offsetWidth : null,
+                height: restoreButton?.offsetHeight > 0 ? restoreButton.offsetHeight : null,
+                status: 'closed'
+            })
         }
 
-        return this.callback('minimized')
+        const restoreButton = debugbar.querySelector('.phpdebugbar-header .phpdebugbar-restore-btn')
+
+        return this.callback({
+            width: restoreButton?.offsetWidth > 0 ? restoreButton.offsetWidth : null,
+            height: restoreButton?.offsetHeight > 0 ? restoreButton.offsetHeight : null,
+            status: 'minimized'
+        })
     }
 }

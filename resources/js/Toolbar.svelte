@@ -14,6 +14,8 @@
 
     let toolbar = null
     let isHidden = false
+    let debugbarWidth = null
+    let debugbarHeight = null
     let debugbarStatus = null
 
     onMount(() => {
@@ -21,39 +23,47 @@
             .then(response => response.json())
             .then(response => toolbar = response)
 
-        const debugbar = document.documentElement.querySelector('.phpdebugbar')
+        setTimeout(() => {
+            const debugbar = document.documentElement.querySelector('.phpdebugbar')
 
-        if (debugbar) {
-            new DebugbarObserver(debugbar, status => debugbarStatus = status)
-        }
+            if (debugbar) {
+                new DebugbarObserver(debugbar, ({ width, height, status }) => {
+                    debugbarWidth = width
+                    debugbarHeight = height
+                    debugbarStatus = status
+                })
+            }
+        })
     })
 </script>
 
 <div
     id="toolbar"
+    theme={toolbar?.theme ?? 'auto'}
     class:isHidden
     class:debugbarClosed={ debugbarStatus === 'closed' }
     class:debugbarMinimized={ debugbarStatus === 'minimized' }
-    theme={toolbar?.theme ?? 'auto'}
+    style:--debugbar-width={debugbarWidth ? `${debugbarWidth}px` : null}
+    style:--debugbar-height={debugbarHeight ? `${debugbarHeight}px` : null}
 >
     {#if toolbar?.breakpoints}
-        <Breakpoints breakpoints={toolbar.breakpoints}/>
+        <Breakpoints breakpoints={toolbar.breakpoints} />
     {/if}
 
     {#if toolbar?.site}
-        <Site site={toolbar.site}/>
+        <Site site={toolbar.site} />
     {/if}
 
     {#if toolbar?.template}
-        <Template template={toolbar.template}/>
+        <Template template={toolbar.template} />
     {/if}
 
     {#if toolbar?.cp_link}
-        <CpLink cp_link={toolbar.cp_link}/>
+        <CpLink cp_link={toolbar.cp_link} />
     {/if}
 
     {#if toolbar?.visibility}
-        <Visibility callback={hidden => isHidden = hidden}/>
+        <Visibility callback={hidden => isHidden = hidden} />
     {/if}
 
     <style>
