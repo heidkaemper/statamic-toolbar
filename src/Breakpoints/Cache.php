@@ -9,7 +9,7 @@ class Cache
 {
     public static function remember(string $key, array $files, Closure $callback): mixed
     {
-        if (env('STATAMIC_TOOLBAR_CACHE_DISABLED')) {
+        if (config('statamic.toolbar.cache_disabled', false)) {
             return $callback();
         }
 

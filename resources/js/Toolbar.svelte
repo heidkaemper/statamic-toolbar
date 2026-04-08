@@ -23,17 +23,21 @@
             .then(response => response.json())
             .then(response => toolbar = response)
 
+        let observer = null
+
         setTimeout(() => {
             const debugbar = document.documentElement.querySelector('.phpdebugbar')
 
             if (debugbar) {
-                new DebugbarObserver(debugbar, ({ width, height, status }) => {
+                observer = new DebugbarObserver(debugbar, ({ width, height, status }) => {
                     debugbarWidth = width
                     debugbarHeight = height
                     debugbarStatus = status
                 })
             }
         })
+
+        return () => observer?.disconnect()
     })
 </script>
 

@@ -26,7 +26,7 @@ class TailwindParser
 
     public function parse(): ?array
     {
-        if (! $this->guessWetherTailwindIsUsed()) {
+        if (! $this->guessWhetherTailwindIsUsed()) {
             return null;
         }
 
@@ -41,7 +41,7 @@ class TailwindParser
         return $this->screens ?? $this->defaults;
     }
 
-    private function guessWetherTailwindIsUsed(): bool
+    private function guessWhetherTailwindIsUsed(): bool
     {
         if (file_exists(base_path('tailwind.config.js'))) {
             return true;
@@ -49,7 +49,7 @@ class TailwindParser
 
         $npm = base_path('package.json');
 
-        if (file_exists($npm) && strpos(file_get_contents($npm), '"tailwindcss"')) {
+        if (file_exists($npm) && str_contains(file_get_contents($npm), '"tailwindcss"')) {
             return true;
         }
 

@@ -1,10 +1,18 @@
 export default {
     get(key) {
-        return JSON.parse(localStorage.getItem(key))
+        try {
+            return JSON.parse(localStorage.getItem(key))
+        } catch {
+            return null
+        }
     },
 
     set(key, value) {
-        localStorage.setItem(key, JSON.stringify(value))
+        try {
+            localStorage.setItem(key, JSON.stringify(value))
+        } catch {
+            // Ignore quota errors — the toolbar must not break the page.
+        }
     },
 
     has(key) {

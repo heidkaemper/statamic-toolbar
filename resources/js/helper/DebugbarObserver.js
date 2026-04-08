@@ -2,15 +2,21 @@ export default class {
     constructor(debugbar, callback) {
         this.callback = callback
 
-        new MutationObserver(mutations => {
+        this.observer = new MutationObserver(mutations => {
             mutations.forEach(mutation => {
                 if (mutation.attributeName === 'class') {
                     this.setStatus(mutation.target)
                 }
             })
-        }).observe(debugbar, { attributes: true })
+        })
+
+        this.observer.observe(debugbar, { attributes: true })
 
         this.setStatus(debugbar)
+    }
+
+    disconnect() {
+        this.observer?.disconnect()
     }
 
     setStatus(debugbar) {

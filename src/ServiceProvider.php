@@ -13,36 +13,14 @@ class ServiceProvider extends AddonServiceProvider
         parent::boot();
 
         Statamic::booted(function () {
-            $this
-                ->bootAddonRoutes()
-                ->bootAddonMiddleware()
-                ->bootAddonViews()
-                ->publishAddonAssets();
+            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+            $this->app['router']->pushMiddlewareToGroup('statamic.web', InjectToolbar::class);
+            $this->loadViewsFrom(__DIR__ . '/../resources/views', 'statamic-toolbar');
+            $this->publishAddonAssets();
         });
     }
 
-    protected function bootAddonRoutes(): self
-    {
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
-
-        return $this;
-    }
-
-    protected function bootAddonMiddleware(): self
-    {
-        $this->app['router']->pushMiddlewareToGroup('statamic.web', InjectToolbar::class);
-
-        return $this;
-    }
-
-    protected function bootAddonViews(): self
-    {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'statamic-toolbar');
-
-        return $this;
-    }
-
-    protected function bootConfig(): self
+    protected function bootConfig()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/toolbar.php', 'statamic.toolbar');
 

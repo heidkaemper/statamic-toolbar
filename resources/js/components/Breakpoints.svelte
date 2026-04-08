@@ -6,12 +6,22 @@
     export let breakpoints
 
     let windowWidth = 0
-    let isButton = Object.keys(breakpoints).length >= 1
+    let isButton = Object.keys(breakpoints).length > 0
     let type = 'width'
 
     if (isButton) {
         type = Storage.get('statamic.toolbar.breakpoints.type') ?? 'labels'
     }
+
+    const mediaQueryStyles = (() => {
+        let styles = '.breakpoints::before { content: "\\2014" }'
+
+        Object.entries(breakpoints).forEach(([label, query]) => {
+            styles += `@media (${query}) { .breakpoints::before { content: "${label}" } }`
+        })
+
+        return `<style>${styles}</style>`
+    })()
 
     function handleClick() {
         if (! isButton) {
@@ -31,17 +41,6 @@
 
         Storage.set('statamic.toolbar.breakpoints.type', type)
     }
-
-    function getMediaQueryStyles() {
-        let styles = '.breakpoints::before { content: "\\2014" }'
-
-        Object.entries(breakpoints).forEach(function (breakpoint) {
-            styles += `@media (${breakpoint[1]}) { .breakpoints::before { content: "${breakpoint[0]}" } }`
-        })
-
-        // https://github.com/sveltejs/svelte/issues/5292
-        return `<${''}style>${styles}</${''}style>`
-    }
 </script>
 
 <div
@@ -57,7 +56,7 @@
     <span class="cell_content cell_breakpoint_indicator">
         {#if type === 'labels' || type === 'both'}
             <span class="breakpoints">
-                {@html getMediaQueryStyles()}
+                {@html mediaQueryStyles}
             </span>
         {/if}
 

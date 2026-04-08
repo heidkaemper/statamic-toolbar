@@ -29,7 +29,7 @@ class ToolbarController extends Controller
             'template' => $this->getTemplate(),
             'cp_link' => $this->getCpLink(),
             'visibility' => config('statamic.toolbar.components.visibility', true),
-            'theme' => env('STATAMIC_TOOLBAR_THEME', config('debugbar.theme', 'auto')),
+            'theme' => config('statamic.toolbar.theme') ?: config('debugbar.theme', 'auto'),
         ];
 
         $toolbarData = array_filter($toolbarData, fn ($value) => ! is_null($value));
@@ -98,10 +98,14 @@ class ToolbarController extends Controller
             return null;
         }
 
+        if (! $this->entry) {
+            return null;
+        }
+
         if (! auth()->user()?->can("view {$this->entry->collection->handle} entries")) {
             return null;
         }
 
-        return $this->entry?->editUrl();
+        return $this->entry->editUrl();
     }
 }

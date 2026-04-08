@@ -56,3 +56,12 @@ it('does not inject when config is auth and user can not access cp', function ()
         ->assertOk()
         ->assertDontSee('</toolbar-widget>', false);
 });
+
+it('does not inject into non-successful responses', function () {
+    config()->set('statamic.toolbar.enabled', true);
+
+    $this
+        ->get('/does-not-exist')
+        ->assertNotFound()
+        ->assertDontSee('</toolbar-widget>', false);
+});

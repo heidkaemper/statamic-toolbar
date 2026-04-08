@@ -61,4 +61,29 @@ return [
     */
 
     'route_prefix' => '_toolbar',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Theme
+    |--------------------------------------------------------------------------
+    |
+    | Set the Toolbar theme to 'light', 'dark' or 'auto'. When set to null,
+    | the Toolbar will fall back to 'auto' or, if the Laravel Debugbar is
+    | installed, adopt its configured theme.
+    |
+    */
+
+    'theme' => env('STATAMIC_TOOLBAR_THEME', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Disable breakpoint cache
+    |--------------------------------------------------------------------------
+    |
+    | By default, parsed CSS framework breakpoints are cached to avoid
+    | re-parsing config files on every request. Set to true to disable.
+    |
+    */
+
+    'cache_disabled' => env('STATAMIC_TOOLBAR_CACHE_DISABLED', false),
 ];
