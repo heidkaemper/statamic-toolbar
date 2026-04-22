@@ -72,17 +72,17 @@ jobs:
         run: composer phpcs
 
   test:
-    name: Tests (PHP ${{ matrix.php }} - Statamic ${{ matrix.statamic }} - Laravel ${{ matrix.laravel }} - ${{ matrix.dependency-version }})
+    name: ${{ matrix.name }}
     runs-on: ubuntu-latest
     needs: [lint-js, lint-php]
     strategy:
       fail-fast: false
       matrix:
         include:
-          - { php: '8.3', statamic: '5', laravel: '11.*', dependency-version: 'prefer-lowest' }
-          - { php: '8.4', statamic: '5', laravel: '12.*', dependency-version: 'prefer-stable' }
-          - { php: '8.4', statamic: '6', laravel: '12.*', dependency-version: 'prefer-lowest' }
-          - { php: '8.5', statamic: '6', laravel: '13.*', dependency-version: 'prefer-stable' }
+          - { name: 'Statamic 5 / Laravel 11 / PHP 8.3 / lowest',  php: '8.3', statamic: '5', laravel: '11.*', dependency-version: 'prefer-lowest' }
+          - { name: 'Statamic 5 / Laravel 12 / PHP 8.4 / stable',  php: '8.4', statamic: '5', laravel: '12.*', dependency-version: 'prefer-stable' }
+          - { name: 'Statamic 6 / Laravel 12 / PHP 8.4 / lowest',  php: '8.4', statamic: '6', laravel: '12.*', dependency-version: 'prefer-lowest' }
+          - { name: 'Statamic 6 / Laravel 13 / PHP 8.5 / stable',  php: '8.5', statamic: '6', laravel: '13.*', dependency-version: 'prefer-stable' }
     steps:
       - uses: actions/checkout@v5
 
