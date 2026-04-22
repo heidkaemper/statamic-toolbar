@@ -8,8 +8,8 @@
         "mck89/peast": "^1.17"
     },
     "require-dev": {
-        "orchestra/testbench": "^10.9",
-        "pestphp/pest": "^4.3",
+        "orchestra/testbench": "^9.0 || ^10.0 || ^11.0",
+        "pestphp/pest": "^3.0 || ^4.0",
         "laravel/pint": "^1.27"
     },
     "autoload": {
