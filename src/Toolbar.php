@@ -37,7 +37,7 @@ class Toolbar
     {
         $content = $response->getContent();
 
-        if (! $pos = mb_strripos($content, '</body>')) {
+        if (($pos = mb_strripos($content, '</body>')) === false) {
             return;
         }
 

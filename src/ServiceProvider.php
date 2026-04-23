@@ -8,16 +8,19 @@ use Statamic\Statamic;
 
 class ServiceProvider extends AddonServiceProvider
 {
-    public function boot()
-    {
-        parent::boot();
+    protected $routes = [
+        'web' => __DIR__ . '/../routes/api.php',
+    ];
 
-        Statamic::booted(function () {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
-            $this->app['router']->pushMiddlewareToGroup('statamic.web', InjectToolbar::class);
-            $this->loadViewsFrom(__DIR__ . '/../resources/views', 'statamic-toolbar');
-            $this->publishAddonAssets();
-        });
+    protected $middlewareGroups = [
+        'statamic.web' => [InjectToolbar::class],
+    ];
+
+    protected $viewNamespace = 'statamic-toolbar';
+
+    public function bootAddon(): void
+    {
+        $this->bootAddonAssets();
     }
 
     protected function bootConfig()
@@ -35,7 +38,7 @@ class ServiceProvider extends AddonServiceProvider
         return $this;
     }
 
-    protected function publishAddonAssets(): void
+    protected function bootAddonAssets(): void
     {
         $this->publishes([
             __DIR__ . '/../dist/toolbar.js' => public_path('vendor/statamic-toolbar/toolbar.js'),

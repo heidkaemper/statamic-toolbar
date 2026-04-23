@@ -3,19 +3,22 @@
 namespace Heidkaemper\Toolbar\Controllers;
 
 use Heidkaemper\Toolbar\Breakpoints\Breakpoints;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Statamic\Contracts\Entries\Entry as EntryContract;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Site;
 use Statamic\Support\Str;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ToolbarController extends Controller
 {
-    protected $origin;
+    protected Request $origin;
 
-    protected $entry;
+    protected ?EntryContract $entry = null;
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
         abort_unless($request->query('origin'), 404);
 
@@ -37,13 +40,13 @@ class ToolbarController extends Controller
         return response()->json($toolbarData);
     }
 
-    protected function findEntryByOrigin()
+    protected function findEntryByOrigin(): ?EntryContract
     {
         $site = Site::findByUrl($this->origin->url());
 
         $path = $this->trimSiteFromPath($this->origin->getPathInfo(), $site?->url() ?? '/');
 
-        return Entry::findByUri($path, $site);
+        return Entry::findByUri($path, $site?->handle());
     }
 
     protected function trimSiteFromPath(string $path, string $site): string
@@ -87,7 +90,11 @@ class ToolbarController extends Controller
             return $template;
         }
 
-        $route = app('router')->getRoutes()->match($this->origin);
+        try {
+            $route = app('router')->getRoutes()->match($this->origin);
+        } catch (NotFoundHttpException) {
+            return null;
+        }
 
         return $route->parameters()['view'] ?? null;
     }

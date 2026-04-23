@@ -32,7 +32,7 @@ class Cache
         return $result;
     }
 
-    private static function getHashFromFiles(array $files): string
+    protected static function getHashFromFiles(array $files): string
     {
         $times = array_map(function ($file) {
             return file_exists(base_path($file)) ? filemtime(base_path($file)) : 0;

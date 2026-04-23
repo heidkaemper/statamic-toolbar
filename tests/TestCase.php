@@ -3,16 +3,17 @@
 namespace Heidkaemper\Toolbar\Tests;
 
 use Heidkaemper\Toolbar\ServiceProvider;
-use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Statamic\Auth\File\Role;
 use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Stache;
 use Statamic\Facades\User;
-use Statamic\Providers\StatamicServiceProvider;
+use Statamic\Testing\AddonTestCase;
 
-class TestCase extends OrchestraTestCase
+class TestCase extends AddonTestCase
 {
+    protected string $addonServiceProvider = ServiceProvider::class;
+
     protected $user;
 
     protected function setUp(): void
@@ -20,23 +21,6 @@ class TestCase extends OrchestraTestCase
         parent::setUp();
 
         $this->setUpTestData();
-    }
-
-    protected function getPackageProviders($app): array
-    {
-        return [
-            StatamicServiceProvider::class,
-            ServiceProvider::class,
-        ];
-    }
-
-    protected function resolveApplicationConfiguration($app)
-    {
-        parent::resolveApplicationConfiguration($app);
-
-        $app['config']->set('statamic.users.repository', 'file');
-
-        $app['config']->set('statamic.toolbar', require (__DIR__ . '/../config/toolbar.php'));
     }
 
     protected function setUpTestData(): void

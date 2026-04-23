@@ -14,14 +14,14 @@ class PicoParser
 
     public function parse(): ?array
     {
-        if (! $this->guessWetherPicoIsUsed()) {
+        if (! $this->guessWhetherPicoIsUsed()) {
             return null;
         }
 
         return $this->defaults;
     }
 
-    private function guessWetherPicoIsUsed(): bool
+    protected function guessWhetherPicoIsUsed(): bool
     {
         if (file_exists(public_path('css/pico.min.css'))) {
             return true;
@@ -29,7 +29,7 @@ class PicoParser
 
         $npm = base_path('package.json');
 
-        if (file_exists($npm) && strpos(file_get_contents($npm), '"@picocss/pico"')) {
+        if (file_exists($npm) && str_contains(file_get_contents($npm), '"@picocss/pico"')) {
             return true;
         }
 

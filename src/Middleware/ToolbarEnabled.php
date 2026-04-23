@@ -4,6 +4,8 @@ namespace Heidkaemper\Toolbar\Middleware;
 
 use Closure;
 use Heidkaemper\Toolbar\Toolbar;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ToolbarEnabled
 {
@@ -11,7 +13,7 @@ class ToolbarEnabled
         protected Toolbar $toolbar,
     ) {}
 
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         if (! $this->toolbar->isEnabled()) {
             abort(404);

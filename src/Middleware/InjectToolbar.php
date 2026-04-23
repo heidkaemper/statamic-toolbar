@@ -4,7 +4,9 @@ namespace Heidkaemper\Toolbar\Middleware;
 
 use Closure;
 use Heidkaemper\Toolbar\Toolbar;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 
 class InjectToolbar
 {
@@ -12,11 +14,15 @@ class InjectToolbar
         protected Toolbar $toolbar,
     ) {}
 
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
 
-        if ($response->status() !== 200) {
+        if ($response->getStatusCode() !== 200) {
+            return $response;
+        }
+
+        if (! str_contains($response->headers->get('Content-Type') ?? '', 'text/html')) {
             return $response;
         }
 

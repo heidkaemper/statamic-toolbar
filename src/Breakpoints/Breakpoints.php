@@ -28,7 +28,7 @@ class Breakpoints
         return $this->breakpoints->toArray();
     }
 
-    private function getFromConfig(): self
+    protected function getFromConfig(): self
     {
         if (! $this->breakpoints->isEmpty()) {
             return $this;
@@ -39,7 +39,7 @@ class Breakpoints
         return $this;
     }
 
-    private function getFromTailwind(): self
+    protected function getFromTailwind(): self
     {
         if (! $this->breakpoints->isEmpty()) {
             return $this;
@@ -59,7 +59,7 @@ class Breakpoints
         return $this;
     }
 
-    private function getFromPico(): self
+    protected function getFromPico(): self
     {
         if (! $this->breakpoints->isEmpty()) {
             return $this;
@@ -70,7 +70,7 @@ class Breakpoints
         return $this;
     }
 
-    private function getFromBootstrap(): self
+    protected function getFromBootstrap(): self
     {
         if (! $this->breakpoints->isEmpty()) {
             return $this;
@@ -88,7 +88,7 @@ class Breakpoints
         return $this;
     }
 
-    private function format(): self
+    protected function format(): self
     {
         $this->breakpoints = $this->breakpoints
             ->map(function ($breakpoint) {

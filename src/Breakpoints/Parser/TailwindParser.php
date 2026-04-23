@@ -41,7 +41,7 @@ class TailwindParser
         return $this->screens ?? $this->defaults;
     }
 
-    private function guessWhetherTailwindIsUsed(): bool
+    protected function guessWhetherTailwindIsUsed(): bool
     {
         if (file_exists(base_path('tailwind.config.js'))) {
             return true;
@@ -56,7 +56,7 @@ class TailwindParser
         return false;
     }
 
-    private function parseConfigFile($filename): void
+    protected function parseConfigFile($filename): void
     {
         if (! file_exists(base_path($filename))) {
             return;
@@ -108,17 +108,17 @@ class TailwindParser
         $this->sortByMinWidth();
     }
 
-    private function getRawKeyName($key): ?string
+    protected function getRawKeyName($key): ?string
     {
         return $key instanceof StringLiteral ? $key?->getValue() : $key?->getRawName();
     }
 
-    private function getBreakpointMedia($media): ?string
+    protected function getBreakpointMedia($media): ?string
     {
         if ($media instanceof StringLiteral) {
             $value = $media->getValue();
 
-            return (string) preg_match('/^[0-9]*.{2,3}$/', $value) ? "min-width: {$value}" : $value;
+            return preg_match('/^[0-9]*.{2,3}$/', $value) ? "min-width: {$value}" : $value;
         }
 
         if ($this->isMaxWidthBreakpoint($media)) {
@@ -142,7 +142,7 @@ class TailwindParser
     }
 
     // https://tailwindcss.com/docs/screens#max-width-breakpoints
-    private function isMaxWidthBreakpoint($media): bool
+    protected function isMaxWidthBreakpoint($media): bool
     {
         if (! $media instanceof ObjectExpression) {
             return false;
@@ -157,7 +157,7 @@ class TailwindParser
     }
 
     // https://tailwindcss.com/docs/screens#fixed-range-breakpoints
-    private function isFixedRangeBreakpoint($media): bool
+    protected function isFixedRangeBreakpoint($media): bool
     {
         if (! $media instanceof ObjectExpression) {
             return false;
@@ -174,7 +174,7 @@ class TailwindParser
     }
 
     // https://tailwindcss.com/docs/screens#custom-media-queries
-    private function isCustomBreakpoint($media): bool
+    protected function isCustomBreakpoint($media): bool
     {
         if (! $media instanceof ObjectExpression) {
             return false;
@@ -188,14 +188,14 @@ class TailwindParser
             && $this->getRawKeyName($properties[0]->getKey()) === 'raw';
     }
 
-    private function shouldExtend($ast): bool
+    protected function shouldExtend($ast): bool
     {
         return (bool)
             $ast->query("Property[key.name='extend'] Property[key.name='screens']")->count() ||
             $ast->query("Property[key.name='screens'] SpreadElement MemberExpression[object.name='defaultTheme'][property.name='screens']")->count();
     }
 
-    private function sortByMinWidth(): void
+    protected function sortByMinWidth(): void
     {
         $sortedScreens = collect($this->screens)
             ->map(function ($screen) {

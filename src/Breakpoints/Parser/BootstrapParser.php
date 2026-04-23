@@ -21,7 +21,7 @@ class BootstrapParser
 
     public function parse(): ?array
     {
-        if (! $this->guessWetherBootstrapIsUsed()) {
+        if (! $this->guessWhetherBootstrapIsUsed()) {
             return null;
         }
 
@@ -36,7 +36,7 @@ class BootstrapParser
         return $this->screens ?? $this->defaults;
     }
 
-    private function guessWetherBootstrapIsUsed(): bool
+    protected function guessWhetherBootstrapIsUsed(): bool
     {
         if (file_exists(resource_path('scss/bootstrap.scss')) || file_exists(resource_path('sass/bootstrap.scss'))) {
             return true;
@@ -44,14 +44,14 @@ class BootstrapParser
 
         $npm = base_path('package.json');
 
-        if (file_exists($npm) && strpos(file_get_contents($npm), '"bootstrap"')) {
+        if (file_exists($npm) && str_contains(file_get_contents($npm), '"bootstrap"')) {
             return true;
         }
 
         return false;
     }
 
-    private function parseConfigFile($filename): void
+    protected function parseConfigFile($filename): void
     {
         if (! file_exists(resource_path($filename))) {
             return;
@@ -78,7 +78,7 @@ class BootstrapParser
                     return "min-width: {$value}px";
                 }
 
-                return (string) preg_match('/^[0-9]*.{2,3}$/', $value) ? "min-width: {$value}" : $value;
+                return preg_match('/^[0-9]*.{2,3}$/', $value) ? "min-width: {$value}" : $value;
             });
 
         if (! $screens->count()) {

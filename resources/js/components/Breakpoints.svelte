@@ -13,11 +13,13 @@
         type = Storage.get('statamic.toolbar.breakpoints.type') ?? 'labels'
     }
 
+    const escapeCssString = (value) => String(value).replace(/[\\"<>]/g, c => `\\${c.charCodeAt(0).toString(16)} `)
+
     const mediaQueryStyles = (() => {
         let styles = '.breakpoints::before { content: "\\2014" }'
 
         Object.entries(breakpoints).forEach(([label, query]) => {
-            styles += `@media (${query}) { .breakpoints::before { content: "${label}" } }`
+            styles += `@media (${query}) { .breakpoints::before { content: "${escapeCssString(label)}" } }`
         })
 
         return `<style>${styles}</style>`
