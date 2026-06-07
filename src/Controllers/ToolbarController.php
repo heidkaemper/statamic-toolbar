@@ -3,16 +3,18 @@
 namespace Heidkaemper\Toolbar\Controllers;
 
 use Heidkaemper\Toolbar\Breakpoints\Breakpoints;
+use Illuminate\Contracts\Auth\Access\Authorizable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Statamic\Contracts\Entries\Entry as EntryContract;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Site;
 use Statamic\Support\Str;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ToolbarController extends Controller
+class ToolbarController
 {
     protected Request $origin;
 
@@ -20,9 +22,9 @@ class ToolbarController extends Controller
 
     public function __invoke(Request $request): JsonResponse
     {
-        abort_unless($request->query('origin'), 404);
+        abort_unless($origin = $request->query('origin'), 404);
 
-        $this->origin = app('request')->create($request->query('origin'));
+        $this->origin = Request::create($origin);
 
         $this->entry = $this->findEntryByOrigin();
 
@@ -57,7 +59,7 @@ class ToolbarController extends Controller
             return '/';
         }
 
-        $path = Str::removeLeft($path, $site . '/');
+        $path = Str::removeLeft($path, "{$site}/");
 
         return Str::ensureLeft($path, '/');
     }
@@ -92,7 +94,7 @@ class ToolbarController extends Controller
 
         try {
             $route = app('router')->getRoutes()->match($this->origin);
-        } catch (NotFoundHttpException) {
+        } catch (NotFoundHttpException|MethodNotAllowedHttpException) {
             return null;
         }
 
@@ -109,7 +111,9 @@ class ToolbarController extends Controller
             return null;
         }
 
-        if (! auth()->user()?->can("view {$this->entry->collection->handle} entries")) {
+        $user = Auth::user();
+
+        if (! $user instanceof Authorizable || ! $user->can("view {$this->entry->collection->handle} entries")) {
             return null;
         }
 

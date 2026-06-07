@@ -3,6 +3,8 @@
 namespace Heidkaemper\Toolbar;
 
 use Composer\InstalledVersions;
+use Illuminate\Contracts\Auth\Access\Authorizable;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class Toolbar
@@ -30,23 +32,25 @@ class Toolbar
             return false;
         }
 
-        return auth()->user()?->can('access cp') ?? false;
+        $user = Auth::user();
+
+        return $user instanceof Authorizable && $user->can('access cp');
     }
 
     public function inject(Response $response): void
     {
         $content = $response->getContent();
 
-        if (($pos = mb_strripos($content, '</body>')) === false) {
+        if (($pos = strripos($content, '</body>')) === false) {
             return;
         }
 
         $widget = view('statamic-toolbar::index', [
             'endpoint' => route('statamic-toolbar.data', [], false),
             'version' => $this->getVersion(),
-        ]);
+        ])->render();
 
-        $response->setContent(mb_substr($content, 0, $pos) . $widget . mb_substr($content, $pos));
+        $response->setContent(substr_replace($content, $widget, $pos, 0));
         $response->headers->remove('Content-Length');
     }
 
