@@ -15,5 +15,5 @@ $config = [
 ];
 
 Route::group($config, function () {
-    Route::get('/', ToolbarController::class)->name('statamic-toolbar-endpoint');
+    Route::get('/', ToolbarController::class)->name('statamic-toolbar.data');
 });

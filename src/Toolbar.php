@@ -42,7 +42,7 @@ class Toolbar
         }
 
         $widget = view('statamic-toolbar::index', [
-            'endpoint' => route('statamic-toolbar-endpoint', [], false),
+            'endpoint' => route('statamic-toolbar.data', [], false),
             'version' => $this->getVersion(),
         ]);
 
