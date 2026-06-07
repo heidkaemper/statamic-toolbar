@@ -30,21 +30,14 @@ class TestCase extends AddonTestCase
 
         Entry::all()->each->delete();
 
-        Collection::make('test')
-            ->routes('{slug}')
-            ->template('template')
-            ->layout('layout')
-            ->save();
-
-        Entry::make()
-            ->collection('test')
-            ->slug('test')
-            ->published(true)
-            ->save();
+        $this->makeUnstructuredCollection();
+        $this->makeStructuredCollection();
 
         $role = (new Role)
-            ->handle('test')
+            ->handle('editor')
             ->addPermission('access cp')
+            ->addPermission('view pages entries')
+            ->addPermission('view structured_pages entries')
             ->save();
 
         $this->user = User::make()
@@ -53,5 +46,38 @@ class TestCase extends AddonTestCase
             ->save();
 
         Stache::clear();
+    }
+
+    protected function makeUnstructuredCollection(): void
+    {
+        Collection::make('pages')
+            ->routes('{slug}')
+            ->template('template')
+            ->layout('layout')
+            ->save();
+
+        Entry::make()
+            ->collection('pages')
+            ->id('test')
+            ->slug('test')
+            ->published(true)
+            ->save();
+    }
+
+    protected function makeStructuredCollection(): void
+    {
+        Collection::make('structured_pages')
+            ->routes('{parent_uri}/{slug}')
+            ->template('template')
+            ->layout('layout')
+            ->structureContents(['root' => false])
+            ->save();
+
+        Entry::make()
+            ->collection('structured_pages')
+            ->id('structured_test')
+            ->slug('structured_test')
+            ->published(true)
+            ->save();
     }
 }
